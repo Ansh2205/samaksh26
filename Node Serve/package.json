@@ -1,0 +1,15 @@
+{
+  "name": "project-july-26-backend",
+  "version": "1.0.0",
+  "description": "Dependencies for the Project July 26 backend server (Razorpay Order Creator).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongodb": "^7.0.0",
+    "mongoose": "^8.19.4"
+  }
+}
