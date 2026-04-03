@@ -8,6 +8,35 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#991b1b', // red-800
+                        secondary: '#dc2626', // red-600
+                        darkbg: '#111827', // gray-900
+                        accent: '#4b5563', // gray-600
+                    },
+                    keyframes: {
+                        scaleX: {
+                            '0%': { transform: 'scaleX(0)', transformOrigin: 'left' },
+                            '50%': { transform: 'scaleX(1)', transformOrigin: 'left' },
+                            '50.001%': { transform: 'scaleX(1)', transformOrigin: 'right' },
+                            '100%': { transform: 'scaleX(0)', transformOrigin: 'right' },
+                        }
+                    },
+                    animation: {
+                        'loader': 'scaleX 1.5s infinite ease-in-out',
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; overflow-x: hidden; }
@@ -84,11 +113,31 @@
             .print-hide { display: none !important; }
             .page-break { page-break-inside: avoid; margin-bottom: 20px; }
         }
+
+        .custom-focus-ring:focus-within {
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+            border-color: #dc2626;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 
 <body class="text-gray-800 antialiased selection:bg-red-100 selection:text-red-900 relative">
     
+    <!-- Form Progress Bar (Sticky Top) -->
+    <div class="fixed top-0 left-0 w-full h-1.5 bg-gray-200 z-[200]">
+        <div id="form-progress-bar" class="h-full bg-red-600 transition-all duration-300 ease-out w-0 shadow-[0_0_10px_rgba(220,38,38,0.8)]"></div>
+    </div>
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-[100] bg-darkbg flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
+        <img src="image_60255d.jpg" alt="Symbiosis Logo" class="h-28 w-auto mb-8 filter drop-shadow-[0_0_15px_rgba(220,38,38,0.5)] animate-pulse">
+        <div class="w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="h-full bg-secondary w-full animate-loader"></div>
+        </div>
+        <p class="text-gray-400 mt-6 text-sm font-bold tracking-widest uppercase animate-pulse">Initializing Secure Gateway...</p>
+    </div>
+
     <!-- Background Decor -->
     <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
         <div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-red-100/50 blur-[100px]"></div>
@@ -96,9 +145,9 @@
     </div>
 
     <!-- Secure Header -->
-    <header class="bg-white/80 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-200/50 shadow-sm relative">
+    <header class="bg-white/80 backdrop-blur-xl sticky top-[6px] z-50 border-b border-gray-200/50 shadow-sm relative">
         <div class="container mx-auto flex py-3 px-6 items-center justify-between">
-            <a class="flex items-center text-gray-900 group hover:opacity-80 transition-opacity">
+            <a class="flex items-center text-gray-900 group hover:opacity-80 transition-opacity" href="index.html">
                 <img src="image_60255d.jpg" alt="Logo" class="h-12 w-auto rounded-lg shadow-sm border border-gray-100">
                 <div class="ml-4 flex flex-col justify-center">
                     <span class="text-[10px] font-extrabold text-gray-500 uppercase tracking-widest leading-none mb-1">School of BFSI</span>
@@ -386,16 +435,18 @@
         </div>
     </div>
 
-    <!-- Global CSS for JS animations -->
-    <style>
-        .custom-focus-ring:focus-within {
-            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
-            border-color: #dc2626;
-            transform: translateY(-2px);
-        }
-    </style>
-
     <script>
+        // --- Preloader Script ---
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('opacity-0');
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 700); 
+            }, 800);
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const API_BASE_URL = ''; 
             const QR_API_BASE_URL = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=';
@@ -421,6 +472,7 @@
             const submitBtn = document.getElementById('submit-btn');
             const submitBtnText = submitBtn.querySelector('.button-text');
             const priceEl = document.getElementById('grand-total-price');
+            const progressBar = document.getElementById('form-progress-bar');
             
             const groupSizeSelect = document.getElementById('group-size');
             const participantsContainer = document.getElementById('dynamic-participants-container');
@@ -431,6 +483,29 @@
             const upiModalContent = document.getElementById('upi-modal-content');
             const modalSubmitBtn = document.getElementById('modal-submit-btn');
             const modalSubmitBtnText = modalSubmitBtn.querySelector('.btn-text');
+
+            // --- Progress Bar Logic ---
+            function updateFormProgress() {
+                const textInputs = form.querySelectorAll('input[type="text"][required], input[type="email"][required], input[type="tel"][required]');
+                if (textInputs.length === 0) {
+                    progressBar.style.width = '0%';
+                    return;
+                }
+                
+                let filled = 0;
+                textInputs.forEach(input => {
+                    if (input.value.trim() !== '') {
+                        filled++;
+                    }
+                });
+                
+                const percentage = (filled / textInputs.length) * 100;
+                progressBar.style.width = `${percentage}%`;
+            }
+
+            // Listen for input to update progress bar dynamically
+            form.addEventListener('input', updateFormProgress);
+
 
             groupSizeSelect.addEventListener('change', (e) => {
                 numberOfParticipants = parseInt(e.target.value);
@@ -510,6 +585,7 @@
                 }
                 summaryAttendeeCount.textContent = `${numberOfParticipants}`;
                 calculateTotalPrice();
+                updateFormProgress(); // Reset or re-calculate progress bar
             }
 
             function calculateTotalPrice() {
@@ -614,6 +690,7 @@
                         document.getElementById('group-size').value = "1";
                         numberOfParticipants = 1;
                         generateParticipantForms();
+                        updateFormProgress(); // Reset progress bar to 0
                     }, 300);
 
                 } catch (error) {
