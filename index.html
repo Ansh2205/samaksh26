@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMAKSH 2026 | School of BFSI Symbiosis Indore</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#991b1b', // red-800
+                        secondary: '#dc2626', // red-600
+                        darkbg: '#111827', // gray-900
+                        accent: '#4b5563', // gray-600
+                    },
+                    keyframes: {
+                        scaleX: {
+                            '0%': { transform: 'scaleX(0)', transformOrigin: 'left' },
+                            '50%': { transform: 'scaleX(1)', transformOrigin: 'left' },
+                            '50.001%': { transform: 'scaleX(1)', transformOrigin: 'right' },
+                            '100%': { transform: 'scaleX(0)', transformOrigin: 'right' },
+                        }
+                    },
+                    animation: {
+                        'loader': 'scaleX 1.5s infinite ease-in-out',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+        .red-glow { box-shadow: 0 0 20px rgba(220, 38, 38, 0.15); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased selection:bg-red-200 selection:text-red-900 overflow-x-hidden">
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-[100] bg-darkbg flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
+        <img src="/image_60255d.jpg" alt="Symbiosis Logo" class="h-28 w-auto mb-8 filter drop-shadow-[0_0_15px_rgba(220,38,38,0.5)] animate-pulse">
+        <div class="w-64 h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="h-full bg-secondary w-full animate-loader"></div>
+        </div>
+        <p class="text-gray-400 mt-6 text-sm font-bold tracking-widest uppercase animate-pulse">Initializing Samaksh...</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <!-- Symbiosis Logo -->
+                    <img src="/image_60255d.jpg" alt="Symbiosis Logo" class="h-12 w-auto object-contain">
+                    <div class="flex flex-col border-l-2 border-gray-200 pl-4">
+                        <span class="font-extrabold text-xl text-primary tracking-tight uppercase">School of BFSI</span>
+                        <span class="text-xs text-gray-500 font-semibold hidden sm:block tracking-wide">Symbiosis Indore</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#events" class="text-sm font-bold text-gray-600 hover:text-secondary transition-colors uppercase tracking-wide">Events</a>
+                    <a href="#rules" class="text-sm font-bold text-gray-600 hover:text-secondary transition-colors uppercase tracking-wide">Rules</a>
+                    <a href="#requirements" class="text-sm font-bold text-gray-600 hover:text-secondary transition-colors uppercase tracking-wide">Requirements</a>
+                    <a href="#registration" class="text-sm font-bold text-gray-600 hover:text-secondary transition-colors uppercase tracking-wide">Protocol</a>
+                </div>
+                <a href="register.html" class="bg-primary hover:bg-red-900 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-md hover:shadow-lg hover:shadow-red-900/20 flex items-center gap-2">
+                    <i class="fas fa-ticket-alt"></i> Register Now
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative bg-darkbg text-white overflow-hidden border-b-4 border-secondary">
+        <div class="absolute inset-0">
+            <!-- Red & Grey Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-r from-red-900/95 via-gray-900/95 to-gray-900/95 mix-blend-multiply"></div>
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop" alt="Background" class="w-full h-full object-cover opacity-30 grayscale" />
+        </div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 flex flex-col items-center text-center">
+            
+            <div class="inline-flex items-center space-x-2 bg-red-500/10 border border-red-500/30 px-6 py-2 rounded-full mb-6 backdrop-blur-md">
+                <span class="animate-pulse h-2 w-2 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
+                <span class="text-sm font-bold text-red-200 tracking-widest uppercase">School of BFSI Presents</span>
+            </div>
+            
+            <h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-2 leading-tight text-white drop-shadow-2xl">
+                SAMAKSH
+            </h1>
+            
+            <h2 class="text-3xl md:text-5xl font-black tracking-tighter mb-8 leading-tight">
+                Where Strategy Meets <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-gray-300">Absolute Power</span>
+            </h2>
+            
+            <p class="text-lg md:text-xl text-gray-300 max-w-2xl mb-12 leading-relaxed font-medium">
+                Join the ultimate test of valuation, negotiation, and policy-making at Samaksh. Compete in the flagship IPL Auction or debate the future in the Finance Parliament.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-5">
+                <a href="#events" class="bg-white text-darkbg px-8 py-4 rounded-full font-bold hover:bg-gray-100 hover:scale-105 transition-all flex items-center justify-center shadow-xl">
+                    Explore Events <i class="fas fa-chevron-right ml-2 text-sm text-secondary"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Date & Time Bar -->
+    <div class="bg-white border border-gray-200 red-glow relative z-10 -mt-10 mx-4 md:mx-auto max-w-5xl rounded-2xl overflow-hidden shadow-xl">
+        <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+            <div class="flex flex-col items-center text-center p-8 hover:bg-red-50/50 transition-colors">
+                <i class="far fa-calendar-alt text-3xl text-secondary mb-4"></i>
+                <span class="text-3xl font-black text-gray-900">24th April, 2026</span>
+                <span class="text-xs text-gray-500 uppercase tracking-widest font-bold mt-2">The Grand Day</span>
+            </div>
+            <div class="flex flex-col items-center text-center p-8 hover:bg-red-50/50 transition-colors">
+                <i class="far fa-clock text-3xl text-secondary mb-4"></i>
+                <span class="text-3xl font-black text-gray-900">9:00 AM</span>
+                <span class="text-xs text-gray-500 uppercase tracking-widest font-bold mt-2">Reporting Time</span>
+            </div>
+            <div class="flex flex-col items-center text-center p-8 hover:bg-red-50/50 transition-colors bg-gray-50/30">
+                <i class="fas fa-map-marker-alt text-3xl text-secondary mb-4"></i>
+                <span class="text-3xl font-black text-gray-900">Seminar Hall 2</span>
+                <span class="text-xs text-gray-500 uppercase tracking-widest font-bold mt-2">Engineering Block</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area: 50-50 Events Split -->
+    <main class="bg-gray-50 pt-24 pb-16" id="events">
+        
+        <div class="text-center max-w-4xl mx-auto mb-16 px-4">
+            <h2 class="text-4xl font-black text-gray-900 mb-5 uppercase tracking-tight">Two Flagship Events</h2>
+            <div class="w-24 h-1.5 bg-secondary mx-auto mb-6 rounded-full"></div>
+            <p class="text-gray-600 text-lg font-medium leading-relaxed">Choose your battlefield. Will you dominate the player market in the high-stakes auction, or will you shape the nation's economic future in the parliament?</p>
+        </div>
+
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 grid xl:grid-cols-2 gap-10">
+            
+            <!-- EVENT 1: IPL AUCTION -->
+            <div class="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden flex flex-col relative group hover:-translate-y-1 transition-transform duration-300">
+                <div class="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
+                    <i class="fas fa-gavel text-[12rem] text-primary"></i>
+                </div>
+                <div class="p-10 md:p-12 relative z-10 flex-grow border-t-8 border-t-primary">
+                    <div class="inline-flex bg-red-50 text-secondary px-5 py-2 rounded-full font-black text-xs mb-6 border border-red-100 uppercase tracking-widest">Event 01</div>
+                    <h3 class="text-4xl md:text-5xl font-black text-gray-900 mb-6 uppercase tracking-tight">IPL Auction</h3>
+                    <p class="text-gray-600 text-lg mb-10 leading-relaxed font-medium">The ultimate valuation challenge. Build the most value-optimized cricket squad within a rigid budget. Master real-time valuation, risk management, and competitor analysis under high-pressure "hammer" conditions.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-red-200 transition-colors">
+                            <h4 class="text-xl font-black text-gray-900 mb-4 flex items-center"><i class="fas fa-bullseye text-secondary mr-3 text-2xl"></i> Game Objectives</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><i class="fas fa-check text-secondary mt-1 mr-3"></i><span class="text-gray-700 font-medium">Construct a roster of <strong class="text-gray-900">16-18 players</strong>.</span></li>
+                                <li class="flex items-start"><i class="fas fa-check text-secondary mt-1 mr-3"></i><span class="text-gray-700 font-medium">Maximize overall squad performance ratings.</span></li>
+                                <li class="flex items-start"><i class="fas fa-check text-secondary mt-1 mr-3"></i><span class="text-gray-700 font-medium">Strictly adhere to the <strong class="text-gray-900">₹140 Crore</strong> virtual purse limit.</span></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-red-200 transition-colors">
+                            <h4 class="text-xl font-black text-gray-900 mb-4 flex items-center"><i class="fas fa-bolt text-secondary mr-3 text-2xl"></i> The Bidding Cycle</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start"><span class="font-black text-secondary mr-3 mt-0.5">1.</span><span class="text-gray-700 font-medium"><strong class="text-gray-900">Announcement:</strong> Profile & base price revealed.</span></li>
+                                <li class="flex items-start"><span class="font-black text-secondary mr-3 mt-0.5">2.</span><span class="text-gray-700 font-medium"><strong class="text-gray-900">Live Bids:</strong> "Place Bid" on local interfaces.</span></li>
+                                <li class="flex items-start"><span class="font-black text-secondary mr-3 mt-0.5">3.</span><span class="text-gray-700 font-medium"><strong class="text-gray-900">Auto-Increments:</strong> 5L up to 2 Cr; 20L above 5 Cr.</span></li>
+                                <li class="flex items-start"><span class="font-black text-secondary mr-3 mt-0.5">4.</span><span class="text-gray-700 font-medium"><strong class="text-gray-900">Closing:</strong> Hammer drops when bids stop.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EVENT 2: FINANCE PARLIAMENT -->
+            <div class="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden flex flex-col relative group hover:-translate-y-1 transition-transform duration-300">
+                <div class="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
+                    <i class="fas fa-landmark text-[12rem] text-gray-800"></i>
+                </div>
+                <div class="p-10 md:p-12 relative z-10 flex-grow border-t-8 border-t-gray-800">
+                    <div class="inline-flex bg-gray-100 text-gray-700 px-5 py-2 rounded-full font-black text-xs mb-6 border border-gray-200 uppercase tracking-widest">Event 02</div>
+                    <h3 class="text-4xl md:text-5xl font-black text-gray-900 mb-6 uppercase tracking-tight">Finance Parliament</h3>
+                    <p class="text-gray-600 text-lg mb-10 leading-relaxed font-medium">Shape the economic future. Step into the shoes of policymakers. Debate fiscal policies, draft economic bills, and navigate macroeconomic crises in a highly simulated parliamentary environment.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-gray-300 transition-colors">
+                            <h4 class="text-xl font-black text-gray-900 mb-3 flex items-center"><i class="fas fa-users text-gray-700 mr-3 text-2xl"></i> Policy Debate</h4>
+                            <p class="text-gray-700 font-medium leading-relaxed">Represent different political and economic factions. Debate on current national budgets, taxation policies, and fiscal deficit management to sway the house.</p>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-gray-300 transition-colors">
+                            <h4 class="text-xl font-black text-gray-900 mb-3 flex items-center"><i class="fas fa-file-contract text-gray-700 mr-3 text-2xl"></i> Bill Drafting</h4>
+                            <p class="text-gray-700 font-medium leading-relaxed">Draft comprehensive financial bills aiming to solve pressing macroeconomic issues like inflation, unemployment, or FDI regulations.</p>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-gray-300 transition-colors">
+                            <h4 class="text-xl font-black text-gray-900 mb-3 flex items-center"><i class="fas fa-balance-scale text-gray-700 mr-3 text-2xl"></i> Crisis Management</h4>
+                            <p class="text-gray-700 font-medium leading-relaxed">Respond dynamically to unexpected "market shock" scenarios injected by the speaker during the high-stakes session. Quick thinking is required.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Rules and Regulations Section -->
+    <section id="rules" class="bg-white py-20 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-4xl mx-auto mb-16 px-4">
+                <h2 class="text-4xl font-black text-gray-900 mb-5 uppercase tracking-tight">Rules & Regulations</h2>
+                <div class="w-24 h-1.5 bg-secondary mx-auto mb-6 rounded-full"></div>
+                <p class="text-gray-600 text-lg font-medium leading-relaxed">Please review the following mandates carefully. Any violation may result in immediate disqualification from Samaksh 2026.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Rule 1 -->
+                <div class="bg-gray-50 border border-gray-200 rounded-3xl p-8 hover:shadow-xl hover:border-red-200 transition-all duration-300 group">
+                    <div class="text-5xl text-gray-200 font-black mb-4 group-hover:text-red-100 transition-colors">01</div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Budget Strictness</h4>
+                    <p class="text-gray-600 text-sm leading-relaxed">Teams must strictly adhere to the ₹140 Cr virtual purse. Server-side validation will block any over-budget bids instantly.</p>
+                </div>
+                <!-- Rule 2 -->
+                <div class="bg-gray-50 border border-gray-200 rounded-3xl p-8 hover:shadow-xl hover:border-red-200 transition-all duration-300 group">
+                    <div class="text-5xl text-gray-200 font-black mb-4 group-hover:text-red-100 transition-colors">02</div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Single Device Rule</h4>
+                    <p class="text-gray-600 text-sm leading-relaxed">Only the designated primary laptop can be used for placing bids and accessing the centralized system dashboard.</p>
+                </div>
+                <!-- Rule 3 -->
+                <div class="bg-gray-50 border border-gray-200 rounded-3xl p-8 hover:shadow-xl hover:border-red-200 transition-all duration-300 group">
+                    <div class="text-5xl text-gray-200 font-black mb-4 group-hover:text-red-100 transition-colors">03</div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Professional Conduct</h4>
+                    <p class="text-gray-600 text-sm leading-relaxed">Parliamentary decorum must be maintained during debates. Any unsportsmanlike behavior will attract heavy point penalties.</p>
+                </div>
+                <!-- Rule 4 -->
+                <div class="bg-gray-50 border border-gray-200 rounded-3xl p-8 hover:shadow-xl hover:border-red-200 transition-all duration-300 group">
+                    <div class="text-5xl text-gray-200 font-black mb-4 group-hover:text-red-100 transition-colors">04</div>
+                    <h4 class="text-xl font-bold text-gray-900 mb-3">Final Authority</h4>
+                    <p class="text-gray-600 text-sm leading-relaxed">The decisions made by the Auctioneer and the Speaker of the House are absolute and binding. No disputes will be entertained.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Student Requirements & Amenities Section -->
+    <section id="requirements" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="bg-darkbg rounded-3xl overflow-hidden shadow-2xl border border-gray-800">
+            <div class="p-8 md:p-12 border-b border-gray-800 bg-gradient-to-r from-gray-900 to-darkbg">
+                <h3 class="text-3xl font-black text-white mb-3 tracking-tight">Student Requirements & Amenities</h3>
+                <p class="text-gray-400 font-medium">Essential prerequisites for participation and provisions provided at the venue.</p>
+            </div>
+            <div class="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-800">
+                <!-- Requirements -->
+                <div class="p-8 md:p-12 space-y-8 bg-darkbg">
+                    <h4 class="text-white font-black text-xl mb-8 flex items-center gap-3">
+                        <i class="fas fa-clipboard-check text-red-500"></i> Requirements
+                    </h4>
+                    <div class="flex items-start gap-5">
+                        <div class="bg-gray-800 border border-gray-700 p-4 rounded-xl shadow-inner"><i class="fas fa-laptop text-red-500 text-xl"></i></div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg">BYOD Policy</h4>
+                            <p class="text-gray-400 text-sm mt-2 leading-relaxed">Each team must bring exactly 1 primary laptop for bidding/research. Chrome or Edge browser is strictly required.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-5">
+                        <div class="bg-gray-800 border border-gray-700 p-4 rounded-xl shadow-inner"><i class="fas fa-users text-red-500 text-xl"></i></div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg">Team Composition</h4>
+                            <p class="text-gray-400 text-sm mt-2 leading-relaxed">Teams must consist of exactly 5 members to ensure balanced delegation during high-pressure events.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-5">
+                        <div class="bg-gray-800 border border-gray-700 p-4 rounded-xl shadow-inner"><i class="fas fa-id-card text-red-500 text-xl"></i></div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg">Valid Identification</h4>
+                            <p class="text-gray-400 text-sm mt-2 leading-relaxed">All participants must carry their official college ID cards and the registration QR code for entry.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Amenities -->
+                <div class="p-8 md:p-12 bg-gray-900/50">
+                    <h4 class="text-white font-black text-xl mb-8 flex items-center gap-3">
+                        <i class="fas fa-concierge-bell text-red-500"></i> Provided Amenities
+                    </h4>
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-5 p-4 rounded-2xl bg-gray-800/50 border border-gray-700 hover:bg-gray-800 transition-colors">
+                            <div class="w-12 h-12 rounded-xl bg-red-900/20 border border-red-900/50 text-red-400 flex items-center justify-center font-black text-xl shrink-0"><i class="fas fa-hamburger"></i></div>
+                            <div>
+                                <h5 class="text-white font-bold text-lg">Food & Refreshments</h5>
+                                <p class="text-gray-400 text-sm mt-1">Catered meals and beverages provided for all 50 participants.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-5 p-4 rounded-2xl bg-gray-800/50 border border-gray-700 hover:bg-gray-800 transition-colors">
+                            <div class="w-12 h-12 rounded-xl bg-red-900/20 border border-red-900/50 text-red-400 flex items-center justify-center font-black text-xl shrink-0"><i class="fas fa-certificate"></i></div>
+                            <div>
+                                <h5 class="text-white font-bold text-lg">Certifications</h5>
+                                <p class="text-gray-400 text-sm mt-1">Official participation and winner certificates for your resume.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-5 p-4 rounded-2xl bg-gray-800/50 border border-gray-700 hover:bg-gray-800 transition-colors">
+                            <div class="w-12 h-12 rounded-xl bg-red-900/20 border border-red-900/50 text-red-400 flex items-center justify-center font-black text-xl shrink-0"><i class="fas fa-network-wired"></i></div>
+                            <div>
+                                <h5 class="text-white font-bold text-lg">Dedicated Network</h5>
+                                <p class="text-gray-400 text-sm mt-1">Ultra-low latency LAN access tailored specifically for the event.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Flow -->
+    <section id="registration" class="bg-white border-t border-gray-200 py-24 relative overflow-hidden">
+        <!-- Abstract BG shapes -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none opacity-50">
+            <div class="absolute -top-[10%] -right-[5%] w-96 h-96 bg-gray-50 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-[10%] -left-[5%] w-96 h-96 bg-red-50 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-black text-gray-900 mb-5 uppercase tracking-tight">Registration Protocol</h2>
+                <p class="text-gray-600 text-lg font-medium max-w-2xl mx-auto">Follow these 4 steps to secure your team's spot. Our integrated system connects directly to the <span class="font-bold text-primary">Samaksh Admin Panel</span>.</p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-10">
+                <!-- Step 1 -->
+                <div class="relative text-center group">
+                    <div class="hidden md:block absolute top-1/4 left-1/2 w-full h-0.5 bg-gray-200 -z-10 group-hover:bg-red-200 transition-colors"></div>
+                    <div class="w-20 h-20 mx-auto bg-white border-4 border-gray-200 text-gray-400 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 group-hover:border-secondary group-hover:text-secondary group-hover:shadow-xl group-hover:shadow-red-900/10 transition-all bg-white rotate-3 group-hover:rotate-0">
+                        <i class="fas fa-wpforms"></i>
+                    </div>
+                    <h4 class="font-black text-gray-900 mb-3 text-lg">1. Registration Form</h4>
+                    <p class="text-sm text-gray-500 font-medium">Submit your team details via our official, previously configured custom portal.</p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="relative text-center group">
+                    <div class="hidden md:block absolute top-1/4 left-1/2 w-full h-0.5 bg-gray-200 -z-10 group-hover:bg-red-200 transition-colors"></div>
+                    <div class="w-20 h-20 mx-auto bg-white border-4 border-gray-200 text-gray-400 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 group-hover:border-secondary group-hover:text-secondary group-hover:shadow-xl group-hover:shadow-red-900/10 transition-all bg-white -rotate-3 group-hover:rotate-0">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h4 class="font-black text-gray-900 mb-3 text-lg">2. Custom UPI</h4>
+                    <p class="text-sm text-gray-500 font-medium">Receive a secure, custom-amount UPI QR linked to the member's Bank A/C.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative text-center group">
+                    <div class="hidden md:block absolute top-1/4 left-1/2 w-full h-0.5 bg-gray-200 -z-10 group-hover:bg-red-200 transition-colors"></div>
+                    <div class="w-20 h-20 mx-auto bg-white border-4 border-gray-200 text-gray-400 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 group-hover:border-secondary group-hover:text-secondary group-hover:shadow-xl group-hover:shadow-red-900/10 transition-all bg-white rotate-3 group-hover:rotate-0">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h4 class="font-black text-gray-900 mb-3 text-lg">3. Admin Sync</h4>
+                    <p class="text-sm text-gray-500 font-medium">Payment validates and instantly updates via the Samaksh Admin Panel.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative text-center group">
+                    <div class="w-20 h-20 mx-auto bg-primary border-4 border-primary text-white rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 group-hover:bg-red-900 group-hover:border-red-900 group-hover:shadow-xl group-hover:shadow-red-900/20 transition-all -rotate-3 group-hover:rotate-0">
+                        <i class="fas fa-id-badge"></i>
+                    </div>
+                    <h4 class="font-black text-primary mb-3 text-lg">4. Venue Entry</h4>
+                    <p class="text-sm text-gray-500 font-medium">Get a printable QR Code-based invoice on mail. Scan at Hall 2 for entry.</p>
+                </div>
+            </div>
+
+            <div class="mt-20 text-center">
+                <a href="register.html" class="bg-primary hover:bg-red-900 text-white px-12 py-5 rounded-full font-black text-lg uppercase tracking-wide transition-all shadow-xl shadow-red-900/20 hover:shadow-2xl hover:-translate-y-1 inline-flex items-center gap-3">
+                    Open Registration Form <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-darkbg text-gray-400 py-16 border-t-4 border-primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+            <h5 class="text-white font-black text-2xl mb-2 uppercase tracking-tight">School of BFSI</h5>
+            <p class="text-sm mb-8 font-medium text-gray-500 uppercase tracking-widest">Symbiosis Indore</p>
+            
+            <p class="text-sm mb-8 text-gray-400 max-w-md">SAMAKSH 2026 • Curated & Executed by the Student Core Committee (15 Volunteers)</p>
+            
+            <div class="flex justify-center space-x-6 mb-10">
+                <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i class="fab fa-instagram text-lg"></i></a>
+                <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i class="fab fa-linkedin-in text-lg"></i></a>
+                <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary hover:text-white transition-all"><i class="fas fa-envelope text-lg"></i></a>
+            </div>
+            <div class="w-full h-px bg-gray-800 mb-8 max-w-2xl"></div>
+            <p class="text-xs text-gray-600 font-medium">&copy; 2026 School of BFSI, Symbiosis Indore. All technical and networking requirements enforced strictly.</p>
+        </div>
+    </footer>
+
+    <!-- Preloader Logic -->
+    <script>
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            // Give it a tiny delay so the user can appreciate the animation
+            setTimeout(() => {
+                preloader.classList.add('opacity-0');
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 700); // Wait for the transition to finish before removing from flow
+            }, 800);
+        });
+    </script>
+</body>
+</html>

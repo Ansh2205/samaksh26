@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMAKSH 2026 - Admin Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f9fafb;}
+        .status-USED { @apply bg-yellow-100 text-yellow-800 border-yellow-400; }
+        .status-UNUSED { @apply bg-green-100 text-green-800 border-green-400; }
+        .status-successful { @apply bg-emerald-100 text-emerald-800 border-emerald-400; }
+        .status-pending { @apply bg-red-100 text-red-800 border-red-400; }
+        .status-badge { @apply inline-flex items-center rounded-full px-3 py-0.5 text-xs font-bold border shadow-sm; }
+
+        .spinner { border-color: #dc2626; border-top-color: transparent; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media print {
+            body { background-color: #fff !important; color: #000 !important; -webkit-print-color-adjust: exact; color-adjust: exact; }
+            body > *:not(.print-this-section) { display: none !important; }
+            .print-this-section:not(.hidden) {
+                display: flex !important; position: relative !important; left: 0 !important; top: 0 !important;
+                width: 100% !important; height: auto !important; overflow: visible !important;
+                background: #fff !important; z-index: 9999 !important; align-items: flex-start !important;
+                justify-content: center !important; padding-top: 2rem !important;
+            }
+            #batch-print-modal:not(.hidden) { display: block !important; padding: 0 !important; }
+            .print-hide { display: none !important; }
+            .shadow-2xl { box-shadow: none !important; }
+            .page-break { page-break-inside: avoid; break-inside: avoid; margin-bottom: 2rem; }
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 antialiased selection:bg-red-100 selection:text-red-900">
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200 shadow-sm relative">
+        <div class="container mx-auto flex flex-wrap py-4 px-6 md:flex-row items-center font-semibold justify-between">
+            <a class="flex title-font font-bold items-center text-gray-900 mb-0 group hover:opacity-80 transition-opacity">
+                <img src="image_60255d.jpg" alt="SAMAKSH Logo" class="h-10 w-auto rounded">
+                <span class="ml-3 text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800 tracking-tight">SAMAKSH 2026 Admin</span>
+            </a>
+            <div class="flex items-center space-x-4">
+                <a href="register.html" class="text-sm font-bold text-gray-600 hover:text-red-700 py-2 px-5 rounded-full border border-gray-200 hover:bg-gray-50 transition-colors shadow-sm">Sign Up Form</a>
+                <a href="verify.html" class="text-sm font-bold text-gray-600 hover:text-red-700 py-2 px-5 rounded-full border border-gray-200 hover:bg-gray-50 transition-colors shadow-sm">Ticket Verifier</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto max-w-[90rem] px-4 py-8 sm:py-12">
+        
+        <!-- Day Toggle & Export Controls -->
+        <div class="bg-white rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100 p-5 mb-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div class="flex items-center space-x-4">
+                <span class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Dashboard View</span>
+                <div class="flex bg-gray-100 p-1 rounded-xl shadow-inner">
+                    <button id="view-day1-btn" class="px-5 py-2 rounded-lg text-sm font-bold shadow-sm bg-white text-red-700 transition-all">Day 1 Data</button>
+                    <button id="view-day2-btn" class="px-5 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all">Day 2 Data</button>
+                </div>
+            </div>
+            
+            <div class="flex space-x-3">
+                <button id="export-csv-btn" class="flex items-center px-5 py-2.5 border border-gray-200 rounded-xl shadow-sm text-sm font-bold text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                    <svg class="h-5 w-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Export (CSV)
+                </button>
+                <button id="add-cash-btn" class="flex items-center px-5 py-2.5 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-gray-900 hover:bg-gray-800 transition-colors">
+                    <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+                    Add Cash Reg
+                </button>
+            </div>
+        </div>
+
+        <div class="flex justify-between items-end mb-6">
+            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight"><span id="table-title-day">Day 1</span> Registrations</h2>
+            
+            <div class="flex space-x-3 items-center">
+                <button id="print-selected-btn" class="hidden items-center px-5 py-2.5 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-red-600 hover:bg-red-700 transition-all">
+                    Print Selected QR (<span id="selected-count">0</span>)
+                </button>
+                <button id="refresh-btn" class="flex items-center px-4 py-2 text-sm font-bold text-red-600 hover:text-red-800 transition-colors">
+                    <svg class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                    Refresh
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+            <div class="bg-white p-6 rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Passes Sold</p>
+                <p id="total-paid" class="mt-2 text-4xl font-extrabold text-gray-900">0</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Fest Entry (<span class="stat-day-label">Day 1</span>)</p>
+                <p id="total-used" class="mt-2 text-4xl font-extrabold text-blue-600">0</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Lunches (<span class="stat-day-label">Day 1</span>)</p>
+                <p id="total-lunches" class="mt-2 text-4xl font-extrabold text-orange-500">0</p>
+            </div>
+            <div class="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl shadow-xl relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 w-20 h-20 bg-white opacity-5 rounded-full blur-xl"></div>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest relative z-10">Total Revenue</p>
+                <p id="total-revenue" class="mt-2 text-4xl font-extrabold text-white relative z-10">₹0</p>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-xl shadow-red-900/5 overflow-hidden rounded-2xl border border-gray-100">
+            <div class="min-w-full overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 text-left w-12"><input type="checkbox" id="select-all" class="rounded border-gray-300 text-red-600 h-4 w-4 cursor-pointer focus:ring-red-500"></th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Participant</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Event Details</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Entry Code</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Fest (<span class="table-day-label">Day 1</span>)</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Lunch (<span class="table-day-label">Day 1</span>)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="entries-table-body" class="bg-white divide-y divide-gray-100">
+                        <tr>
+                            <td colspan="6" class="px-6 py-12 text-center text-sm text-gray-500">
+                                <div class="flex justify-center items-center"><span class="spinner w-6 h-6 border-2 rounded-full border-red-600 border-t-transparent mr-3"></span> Loading Database...</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals (Cash Entry & QR Viewer) -->
+    <div id="cash-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity" id="cash-modal-backdrop"></div>
+        <div class="relative bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 transform transition-all border border-gray-100">
+            <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+                <h3 class="text-2xl font-extrabold text-gray-900 tracking-tight">Manual Registration</h3>
+                <button type="button" id="close-cash-modal" class="text-gray-400 hover:text-red-500 transition-colors bg-gray-50 p-2 rounded-full"><svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+            </div>
+            <form id="cash-form" class="space-y-5">
+                <div><label class="block text-sm font-bold text-gray-700 mb-2">Full Name</label><input type="text" name="name" required class="block w-full rounded-xl border-gray-300 shadow-sm p-3.5 border focus:ring-red-500 focus:border-red-500 bg-gray-50 transition-colors"></div>
+                <div><label class="block text-sm font-bold text-gray-700 mb-2">Email</label><input type="email" name="email" required class="block w-full rounded-xl border-gray-300 shadow-sm p-3.5 border focus:ring-red-500 focus:border-red-500 bg-gray-50 transition-colors"></div>
+                <div><label class="block text-sm font-bold text-gray-700 mb-2">Phone</label><input type="tel" name="phone" required class="block w-full rounded-xl border-gray-300 shadow-sm p-3.5 border focus:ring-red-500 focus:border-red-500 bg-gray-50 transition-colors"></div>
+                <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Select Event</label>
+                    <select id="cash-event-select" name="event" required class="block w-full rounded-xl border-gray-300 shadow-sm p-3.5 border bg-white focus:ring-red-500 focus:border-red-500 cursor-pointer transition-colors">
+                        <option value="finance-parliament">Finance Parliament</option>
+                        <option value="ipl-auction">IPL Mega Auction</option>
+                    </select>
+                </div>
+                <div class="pt-6 flex justify-end space-x-3 border-t border-gray-100 mt-6">
+                    <button type="button" id="cancel-cash-btn" class="px-5 py-3 text-sm font-bold bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors">Cancel</button>
+                    <button type="submit" id="submit-cash-btn" class="px-5 py-3 text-sm font-bold text-white bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl hover:from-gray-800 hover:to-gray-700 shadow-lg transition-all"><span class="btn-text">Log Cash</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- QR Viewers -->
+    <div id="invoice-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 print-this-section hidden" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm print-hide" id="invoice-modal-backdrop"></div>
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full flex flex-col items-center text-center print-content border border-gray-100">
+            <h3 class="text-2xl font-extrabold text-gray-900 mb-1 line-clamp-1 w-full" id="ticket-attendee-name">Name</h3>
+            <p class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6" id="ticket-event-name">Event</p>
+            <div class="bg-gray-50 p-5 rounded-2xl border-2 border-dashed border-gray-200 mb-6 shadow-sm"><img id="ticket-qr-code" src="" class="w-56 h-56 object-contain mix-blend-multiply" /></div>
+            <p class="text-3xl font-mono font-bold tracking-widest text-red-600 mb-8" id="ticket-entry-code">SMK26-XXXX</p>
+            <div class="w-full flex space-x-3 print-hide">
+                <button type="button" id="invoice-print-btn" class="flex-1 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl px-4 py-3.5 font-bold shadow-md hover:from-red-700 hover:to-red-800 transition-colors">Print Ticket</button>
+                <button type="button" id="invoice-close-btn" class="flex-1 bg-white border border-gray-300 text-gray-800 rounded-xl px-4 py-3.5 font-bold hover:bg-gray-50 transition-colors">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="batch-print-modal" class="fixed inset-0 z-[100] bg-white hidden print-this-section overflow-y-auto" role="dialog">
+        <div class="sticky top-0 bg-white border-b border-gray-200 p-4 px-8 flex justify-between items-center shadow-sm print-hide z-10">
+            <div><h2 class="text-2xl font-extrabold tracking-tight">Batch Print</h2></div>
+            <div class="flex space-x-3">
+                <button id="batch-print-cancel-btn" class="px-6 py-2.5 text-sm font-bold border border-gray-300 text-gray-700 rounded-xl bg-white hover:bg-gray-50 transition-colors">Cancel</button>
+                <button id="batch-print-confirm-btn" class="px-6 py-2.5 text-sm font-bold text-white bg-red-600 rounded-xl shadow-md hover:bg-red-700 transition-colors">Print Documents</button>
+            </div>
+        </div>
+        <div class="p-8 print-content bg-gray-50 min-h-screen"><div id="batch-print-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_BASE_URL = 'http://localhost:3000'; 
+            const QR_API_BASE_URL = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data='; 
+
+            // Hardcode prices to match backend for UI updates
+            const PRICES = {
+                'finance-parliament': 500,
+                'ipl-auction': 800
+            };
+
+            let allRegistrations = []; 
+            let allParticipants = [];  
+            let currentAdminDay = 'day1'; 
+
+            const viewDay1Btn = document.getElementById('view-day1-btn');
+            const viewDay2Btn = document.getElementById('view-day2-btn');
+            const statDayLabels = document.querySelectorAll('.stat-day-label');
+            const tableDayLabels = document.querySelectorAll('.table-day-label');
+            const tableTitleDay = document.getElementById('table-title-day');
+
+            const tableBody = document.getElementById('entries-table-body');
+            const totalPaidEl = document.getElementById('total-paid');
+            const totalUsedEl = document.getElementById('total-used');
+            const totalLunchesEl = document.getElementById('total-lunches');
+            const totalRevenueEl = document.getElementById('total-revenue');
+            
+            const exportCsvBtn = document.getElementById('export-csv-btn');
+
+            function processRegistrations(data) {
+                allRegistrations = data;
+                allParticipants = [];
+                
+                data.forEach(reg => {
+                    const members = (reg.teams && reg.teams.length > 0 && reg.teams[0].members) ? reg.teams[0].members : [];
+                    
+                    if (members.length > 0) {
+                        members.forEach((m) => {
+                            allParticipants.push({
+                                registrationId: reg.id,
+                                name: m.name || reg.name || 'Unknown Participant',
+                                email: m.email || reg.email || '',
+                                phone: m.phone || reg.phone || '',
+                                eventName: m.eventName || reg.eventName || 'Fest Pass',
+                                entryCode: m.entryCode || reg.entryCode,
+                                paymentStatus: reg.paymentStatus,
+                                day1EntryStatus: m.day1EntryStatus || reg.day1EntryStatus || 'UNUSED',
+                                day2EntryStatus: m.day2EntryStatus || reg.day2EntryStatus || 'UNUSED',
+                                day1LunchStatus: m.day1LunchStatus || reg.day1LunchStatus || 'UNUSED',
+                                day2LunchStatus: m.day2LunchStatus || reg.day2LunchStatus || 'UNUSED',
+                                registeredAt: reg.registeredAt
+                            });
+                        });
+                    } else {
+                        allParticipants.push({
+                            registrationId: reg.id,
+                            name: reg.name || 'Unknown',
+                            email: reg.email || '',
+                            phone: reg.phone || '',
+                            eventName: reg.eventName || 'Fest Pass',
+                            entryCode: reg.entryCode,
+                            paymentStatus: reg.paymentStatus,
+                            day1EntryStatus: reg.day1EntryStatus || 'UNUSED',
+                            day2EntryStatus: reg.day2EntryStatus || 'UNUSED',
+                            day1LunchStatus: reg.day1LunchStatus || 'UNUSED',
+                            day2LunchStatus: reg.day2LunchStatus || 'UNUSED',
+                            registeredAt: reg.registeredAt
+                        });
+                    }
+                });
+            }
+
+            function updateAdminDayView(day) {
+                currentAdminDay = day;
+                const label = day === 'day1' ? 'Day 1' : 'Day 2';
+                
+                statDayLabels.forEach(el => el.textContent = label);
+                tableDayLabels.forEach(el => el.textContent = label);
+                tableTitleDay.textContent = label;
+
+                if (day === 'day1') {
+                    viewDay1Btn.className = 'px-5 py-2 rounded-lg text-sm font-bold shadow-sm bg-white text-red-700 transition-all';
+                    viewDay2Btn.className = 'px-5 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all bg-transparent shadow-none';
+                } else {
+                    viewDay2Btn.className = 'px-5 py-2 rounded-lg text-sm font-bold shadow-sm bg-white text-red-700 transition-all';
+                    viewDay1Btn.className = 'px-5 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all bg-transparent shadow-none';
+                }
+
+                updateStats();
+                renderTable();
+            }
+
+            viewDay1Btn.addEventListener('click', () => updateAdminDayView('day1'));
+            viewDay2Btn.addEventListener('click', () => updateAdminDayView('day2'));
+
+            function formatStatus(text) {
+                if (!text) return '<span class="status-badge bg-gray-100 text-gray-600 border-gray-300">N/A</span>';
+                const lowerText = text.toLowerCase();
+                if (lowerText === 'successful') return `<span class="status-badge status-successful">${text.toUpperCase()}</span>`;
+                if (lowerText === 'pending' || lowerText === 'failed') return `<span class="status-badge status-pending">${text.toUpperCase()}</span>`;
+                if (lowerText === 'used') return `<span class="status-badge status-USED">${text.toUpperCase()}</span>`;
+                if (lowerText === 'unused') return `<span class="status-badge status-UNUSED">${text.toUpperCase()}</span>`;
+                return `<span class="status-badge bg-gray-100 text-gray-600 border-gray-300">${text.toUpperCase()}</span>`;
+            }
+
+            function updateStats() {
+                const successfulOrders = allRegistrations.filter(r => r.paymentStatus === 'successful');
+                const totalRevenue = successfulOrders.reduce((sum, r) => sum + (r.totalAmount || 0), 0); 
+                
+                const successfulParticipants = allParticipants.filter(p => p.paymentStatus === 'successful');
+                const totalPaidPasses = successfulParticipants.length;
+
+                let totalUsed = 0;
+                let totalLunches = 0;
+
+                successfulParticipants.forEach(p => {
+                    const entryStatus = currentAdminDay === 'day1' ? p.day1EntryStatus : p.day2EntryStatus;
+                    const lunchStatus = currentAdminDay === 'day1' ? p.day1LunchStatus : p.day2LunchStatus;
+                    
+                    if (entryStatus === 'USED') totalUsed++;
+                    if (lunchStatus === 'USED') totalLunches++;
+                });
+
+                totalPaidEl.textContent = totalPaidPasses.toLocaleString('en-IN');
+                totalUsedEl.textContent = totalUsed.toLocaleString('en-IN');
+                totalLunchesEl.textContent = totalLunches.toLocaleString('en-IN');
+                totalRevenueEl.textContent = `₹${totalRevenue.toLocaleString('en-IN')}`;
+            }
+
+            function renderTable() {
+                tableBody.innerHTML = ''; 
+                document.getElementById('select-all').checked = false;
+                
+                if (allParticipants.length === 0) {
+                    tableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-sm text-gray-500 font-bold">No entries found.</td></tr>`;
+                    return;
+                }
+
+                allParticipants.forEach(p => {
+                    const row = document.createElement('tr');
+                    
+                    const entryStatus = currentAdminDay === 'day1' ? p.day1EntryStatus : p.day2EntryStatus;
+                    const lunchStatus = currentAdminDay === 'day1' ? p.day1LunchStatus : p.day2LunchStatus;
+
+                    if (p.paymentStatus === 'pending') {
+                        row.classList.add('bg-red-50/50');
+                    } else if (entryStatus === 'USED' && lunchStatus === 'USED') {
+                        row.classList.add('bg-gray-50');
+                    } else if (entryStatus === 'USED') {
+                        row.classList.add('bg-yellow-50/50');
+                    }
+
+                    const isSelectable = p.paymentStatus === 'successful';
+                    const checkboxHtml = isSelectable 
+                        ? `<input type="checkbox" class="entry-checkbox rounded border-gray-300 text-red-600 h-4 w-4 cursor-pointer focus:ring-red-500" value="${p.entryCode}">`
+                        : `<input type="checkbox" disabled class="rounded border-gray-200 bg-gray-100 h-4 w-4 cursor-not-allowed">`;
+
+                    row.innerHTML = `
+                        <td class="px-6 py-5 whitespace-nowrap">${checkboxHtml}</td>
+                        <td class="px-6 py-5 whitespace-nowrap">
+                            <div class="text-sm font-extrabold text-gray-900">${p.name}</div>
+                            <div class="text-xs font-medium text-gray-500 mt-0.5">${p.email}</div>
+                        </td>
+                        <td class="px-6 py-5 whitespace-nowrap">
+                            <div class="text-sm font-bold text-gray-700">${p.eventName}</div>
+                            <div class="mt-1 flex items-center">
+                                ${p.paymentStatus === 'pending' ? '<span class="text-xs text-red-600 font-extrabold bg-red-100 px-2 py-0.5 rounded">Unpaid</span>' : '<span class="text-xs text-green-700 font-extrabold bg-green-100 px-2 py-0.5 rounded">Paid</span>'}
+                                <button onclick="togglePaymentStatus('${p.registrationId}')" class="text-xs font-bold underline ml-3 ${p.paymentStatus === 'successful' ? 'text-gray-400 hover:text-red-600' : 'text-green-600 hover:text-green-800'} transition-colors">
+                                    ${p.paymentStatus === 'successful' ? 'Revoke' : 'Verify'}
+                                </button>
+                            </div>
+                        </td>
+                        <td class="px-6 py-5 whitespace-nowrap text-sm font-mono font-bold text-red-600 cursor-pointer hover:text-red-800 transition-colors" 
+                            onclick="openTicketByCode('${p.entryCode}')">
+                            <span class="bg-red-50 px-2 py-1 rounded border border-red-100">${p.entryCode}</span>
+                        </td>
+                        <td class="px-6 py-5 whitespace-nowrap text-sm">${formatStatus(entryStatus)}</td>
+                        <td class="px-6 py-5 whitespace-nowrap text-sm">${formatStatus(lunchStatus)}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+                updateSelectionState(); 
+            }
+
+            exportCsvBtn.addEventListener('click', () => {
+                let csvContent = "Event Name,Entry Code,Payment Status,Participant Name,Email,Phone,Day 1 Fest,Day 1 Lunch,Day 2 Fest,Day 2 Lunch\n";
+                const sortedParticipants = [...allParticipants].sort((a, b) => a.eventName.localeCompare(b.eventName));
+
+                sortedParticipants.forEach(p => {
+                    const rowStr = `"${p.eventName}","${p.entryCode}","${p.paymentStatus}","${p.name}","${p.email}","${p.phone}","${p.day1EntryStatus}","${p.day1LunchStatus}","${p.day2EntryStatus}","${p.day2LunchStatus}"`;
+                    csvContent += rowStr + "\n";
+                });
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.setAttribute("href", url);
+                link.setAttribute("download", "SAMAKSH_2026_Attendance.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+
+            function updateSelectionState() {
+                const checkboxes = document.querySelectorAll('.entry-checkbox');
+                const checkedBoxes = document.querySelectorAll('.entry-checkbox:checked');
+                
+                document.getElementById('selected-count').textContent = checkedBoxes.length;
+
+                const selectAll = document.getElementById('select-all');
+                if (checkboxes.length > 0 && checkedBoxes.length === checkboxes.length) {
+                    selectAll.checked = true; selectAll.indeterminate = false;
+                } else if (checkedBoxes.length > 0) {
+                    selectAll.checked = false; selectAll.indeterminate = true;
+                } else {
+                    selectAll.checked = false; selectAll.indeterminate = false;
+                }
+
+                const printBtn = document.getElementById('print-selected-btn');
+                if (checkedBoxes.length > 0) {
+                    printBtn.classList.remove('hidden'); printBtn.classList.add('flex');
+                } else {
+                    printBtn.classList.add('hidden'); printBtn.classList.remove('flex');
+                }
+            }
+
+            tableBody.addEventListener('change', (e) => { if (e.target.classList.contains('entry-checkbox')) updateSelectionState(); });
+            document.getElementById('select-all').addEventListener('change', (e) => {
+                document.querySelectorAll('.entry-checkbox').forEach(cb => cb.checked = e.target.checked);
+                updateSelectionState();
+            });
+
+            document.getElementById('print-selected-btn').addEventListener('click', () => {
+                const checkedValues = Array.from(document.querySelectorAll('.entry-checkbox:checked')).map(cb => cb.value);
+                const selectedEntries = allParticipants.filter(p => checkedValues.includes(p.entryCode));
+                if (selectedEntries.length === 0) return;
+
+                document.getElementById('batch-print-container').innerHTML = selectedEntries.map(entry => `
+                    <div class="border border-gray-200 p-6 rounded-3xl flex flex-col items-center text-center page-break bg-white shadow-sm">
+                        <h3 class="font-extrabold text-xl text-gray-900 line-clamp-1 mb-1 w-full">${entry.name}</h3>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-5 h-4 line-clamp-1">${entry.eventName}</p>
+                        <div class="bg-gray-50 p-4 rounded-2xl mb-5 border-2 border-dashed border-gray-200">
+                            <img src="${QR_API_BASE_URL}${encodeURIComponent(entry.entryCode)}" alt="QR Code" class="w-40 h-40 object-contain mix-blend-multiply" />
+                        </div>
+                        <p class="font-mono font-bold text-xl tracking-widest text-red-600">${entry.entryCode}</p>
+                    </div>
+                `).join('');
+
+                document.getElementById('batch-print-modal').classList.remove('hidden');
+            });
+
+            document.getElementById('batch-print-cancel-btn').addEventListener('click', () => document.getElementById('batch-print-modal').classList.add('hidden'));
+            document.getElementById('batch-print-confirm-btn').addEventListener('click', () => { setTimeout(() => window.print(), 200); });
+
+            window.togglePaymentStatus = async (registrationId) => {
+                if (!confirm('Are you sure you want to change the payment status for this registration?')) return;
+                try {
+                    const res = await fetch(`${API_BASE_URL}/admin/toggle-payment`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ registrationId })
+                    });
+                    if (res.ok) {
+                        fetchRegistrations(); 
+                    } else {
+                        const data = await res.json();
+                        alert('Failed to toggle payment status: ' + (data.error || 'Unknown error'));
+                    }
+                } catch(e) {
+                    alert('Network Error: ' + e.message);
+                }
+            };
+
+            window.openTicketByCode = (code) => {
+                const entry = allParticipants.find(p => p.entryCode === code);
+                if (entry) {
+                    document.getElementById('ticket-attendee-name').textContent = entry.name;
+                    document.getElementById('ticket-event-name').textContent = entry.eventName || "Fest Pass";
+                    document.getElementById('ticket-entry-code').textContent = entry.entryCode;
+                    document.getElementById('ticket-qr-code').src = QR_API_BASE_URL + encodeURIComponent(entry.entryCode);
+                    document.getElementById('invoice-modal').classList.remove('hidden');
+                }
+            };
+
+            document.getElementById('invoice-close-btn').addEventListener('click', () => document.getElementById('invoice-modal').classList.add('hidden'));
+            document.getElementById('invoice-modal-backdrop').addEventListener('click', () => document.getElementById('invoice-modal').classList.add('hidden'));
+            document.getElementById('invoice-print-btn').addEventListener('click', () => window.print());
+
+            const cashModal = document.getElementById('cash-modal');
+            const submitCashBtn = document.getElementById('submit-cash-btn');
+            const cashEventSelect = document.getElementById('cash-event-select');
+            
+            function updateCashBtnPrice() {
+                const price = PRICES[cashEventSelect.value] || 0;
+                submitCashBtn.querySelector('.btn-text').textContent = `Log Cash (₹${price})`;
+            }
+            
+            cashEventSelect.addEventListener('change', updateCashBtnPrice);
+
+            function toggleCashModal(show) {
+                if (show) {
+                    cashModal.classList.remove('hidden');
+                    updateCashBtnPrice();
+                } else { 
+                    cashModal.classList.add('hidden'); 
+                    document.getElementById('cash-form').reset(); 
+                }
+            }
+            document.getElementById('add-cash-btn').addEventListener('click', () => toggleCashModal(true));
+            document.getElementById('close-cash-modal').addEventListener('click', () => toggleCashModal(false));
+            document.getElementById('cancel-cash-btn').addEventListener('click', () => toggleCashModal(false));
+            document.getElementById('cash-modal-backdrop').addEventListener('click', () => toggleCashModal(false));
+
+            document.getElementById('cash-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btnText = submitCashBtn.querySelector('.btn-text');
+                const originalText = btnText.textContent;
+                submitCashBtn.disabled = true; btnText.textContent = 'Processing...';
+
+                const formData = new FormData(e.target);
+                const eventSelect = e.target.querySelector('select[name="event"]');
+                const data = {
+                    name: formData.get('name'), email: formData.get('email'), phone: formData.get('phone'),
+                    eventValue: formData.get('event'), eventName: eventSelect.options[eventSelect.selectedIndex].text
+                };
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/admin/register-cash`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+                    const result = await response.json();
+                    if (response.ok) {
+                        toggleCashModal(false);
+                        await fetchRegistrations();
+                        window.openTicketByCode(result.registration.entryCode);
+                    } else throw new Error(result.error);
+                } catch (error) { alert('Error: ' + error.message); } 
+                finally { submitCashBtn.disabled = false; btnText.textContent = originalText; }
+            });
+
+            async function fetchRegistrations() {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-16 text-center text-sm text-gray-500 font-bold">
+                            <div class="flex justify-center items-center">
+                                <span class="spinner w-8 h-8 border-4 rounded-full border-red-600 border-t-transparent mr-4"></span> Loading Database...
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                document.getElementById('refresh-btn').disabled = true;
+                try {
+                    const response = await fetch(`${API_BASE_URL}/admin/registrations`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    
+                    if (!Array.isArray(data)) {
+                        throw new Error(data.error || 'Invalid data received from server');
+                    }
+                    
+                    processRegistrations(data);
+                    updateAdminDayView(currentAdminDay); 
+
+                } catch (error) {
+                    console.error("Fetch Error:", error);
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="px-6 py-10 text-center">
+                                <div class="text-red-600 font-extrabold text-lg mb-2">Error connecting to backend server</div>
+                                <div class="text-sm font-medium text-gray-500">Details: ${error.message}</div>
+                                <div class="text-xs font-bold text-gray-400 mt-3 bg-gray-50 inline-block px-4 py-2 rounded-lg border border-gray-200">Make sure "server.js" is running on localhost:3000 and MongoDB is connected.</div>
+                            </td>
+                        </tr>
+                    `;
+                    totalPaidEl.textContent = '0';
+                    totalUsedEl.textContent = '0';
+                    totalLunchesEl.textContent = '0';
+                    totalRevenueEl.textContent = '₹0';
+                } finally {
+                    document.getElementById('refresh-btn').disabled = false;
+                }
+            }
+
+            document.getElementById('refresh-btn').addEventListener('click', fetchRegistrations);
+            fetchRegistrations();
+        });
+    </script>
+</body>
+</html>

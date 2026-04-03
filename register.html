@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMAKSH 2026 - School of BFSI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; overflow-x: hidden; }
+        .theme-transition { transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        /* Spinners */
+        .spinner { border-color: rgba(255,255,255,0.3); border-top-color: #fff; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Custom Interactive Animations */
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-slide-up { animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        .price-pop { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); color: #ef4444; }
+            100% { transform: scale(1); }
+        }
+
+        /* Radio Card Styles */
+        .radio-card-input:checked + .radio-card-content {
+            border-color: #dc2626;
+            background-color: #fef2f2;
+            box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.1), 0 2px 4px -1px rgba(220, 38, 38, 0.06);
+        }
+        .radio-card-input:checked + .radio-card-content .check-icon {
+            opacity: 1; transform: scale(1);
+        }
+        .radio-card-content { transition: all 0.2s ease-in-out; }
+        .radio-card-content:hover { border-color: #fca5a5; transform: translateY(-2px); }
+
+        /* Payment Animations */
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .scan-line {
+            position: absolute; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(to bottom, rgba(220, 38, 38, 0), rgba(220, 38, 38, 0.8), rgba(220, 38, 38, 0));
+            box-shadow: 0 0 8px 1px rgba(220, 38, 38, 0.6);
+            animation: scan 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            z-index: 20; pointer-events: none;
+        }
+
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.3); }
+            70% { box-shadow: 0 0 0 15px rgba(220, 38, 38, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+        }
+        .pulse-ring { animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+
+        @keyframes ping-radar {
+            0% { transform: scale(0.5); opacity: 0.8; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+        .ping-element::before, .ping-element::after {
+            content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #dc2626;
+            animation: ping-radar 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        .ping-element::after { animation-delay: 1s; }
+
+        @media print {
+            body { background-color: #fff !important; color: #000 !important; -webkit-print-color-adjust: exact; color-adjust: exact; }
+            body>*:not(.print-this-section) { display: none !important; }
+            .print-this-section { display: block !important; position: relative !important; left: 0 !important; top: 0 !important; width: 100% !important; height: auto !important; overflow: visible !important; background: #fff !important; z-index: 9999 !important; padding: 20px !important; }
+            .print-content { display: block !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; border-radius: 0 !important; }
+            .print-hide { display: none !important; }
+            .page-break { page-break-inside: avoid; margin-bottom: 20px; }
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 antialiased selection:bg-red-100 selection:text-red-900 relative">
+    
+    <!-- Background Decor -->
+    <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+        <div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-red-100/50 blur-[100px]"></div>
+        <div class="absolute top-[40%] -left-[10%] w-[40%] h-[40%] rounded-full bg-orange-50/50 blur-[100px]"></div>
+    </div>
+
+    <!-- Secure Header -->
+    <header class="bg-white/80 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-200/50 shadow-sm relative">
+        <div class="container mx-auto flex py-3 px-6 items-center justify-between">
+            <a class="flex items-center text-gray-900 group hover:opacity-80 transition-opacity">
+                <img src="image_60255d.jpg" alt="Logo" class="h-12 w-auto rounded-lg shadow-sm border border-gray-100">
+                <div class="ml-4 flex flex-col justify-center">
+                    <span class="text-[10px] font-extrabold text-gray-500 uppercase tracking-widest leading-none mb-1">School of BFSI</span>
+                    <span class="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-red-800 tracking-tight leading-none">SAMAKSH 2026</span>
+                </div>
+            </a>
+            <div class="hidden sm:flex items-center text-xs sm:text-sm font-bold text-green-700 bg-green-50/80 backdrop-blur-sm px-4 py-2 rounded-full border border-green-200 shadow-sm transition-transform hover:scale-105 cursor-default">
+                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                Secure Checkout
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto max-w-6xl px-4 py-12 sm:py-16">
+        
+        <!-- Trust Hero Section -->
+        <div class="text-center mb-14 relative animate-slide-up" style="animation-delay: 0.1s; opacity: 0;">
+            <div class="inline-flex items-center space-x-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 border border-red-100">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                <span>Registrations Open</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black tracking-tight text-gray-900 mb-6 drop-shadow-sm">Get Your Passes</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed">
+                Join the most anticipated finance and tech symposium of the year hosted by the School of BFSI. Configure your passes below.
+            </p>
+        </div>
+
+        <!-- Interactive Setup Section -->
+        <div class="mb-8 animate-slide-up" style="animation-delay: 0.2s; opacity: 0;">
+            <div class="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-3xl shadow-xl shadow-red-900/5 border border-gray-100/50">
+                
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    
+                    <!-- Group Size Selector (More Interactive Look) -->
+                    <div class="w-full md:w-1/2">
+                        <h2 class="text-lg font-extrabold text-gray-900 mb-4 flex items-center">
+                            <span class="bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs mr-3 shadow-md shadow-red-600/30">1</span>
+                            Select Participants
+                        </h2>
+                        <div class="relative group">
+                            <select id="group-size" name="group-size" class="appearance-none block w-full rounded-2xl border-2 border-gray-200 shadow-sm focus:border-red-500 focus:ring-0 font-bold text-lg p-5 bg-gray-50/50 text-gray-800 pr-10 cursor-pointer transition-all hover:bg-white hover:border-gray-300">
+                                <option value="1">1 Participant (Individual)</option>
+                                <option value="2">2 Participants</option>
+                                <option value="3">3 Participants</option>
+                                <option value="4">4 Participants (Team)</option>
+                                <option value="5">5 Participants</option>
+                                <option value="6">6 Participants</option>
+                                <option value="7">7 Participants</option>
+                                <option value="8">8 Participants</option>
+                                <option value="9">9 Participants</option>
+                                <option value="10">10 Participants (Large Group)</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-400 group-hover:text-red-500 transition-colors">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 font-medium mt-3 ml-1">Register your entire group in one seamless transaction.</p>
+                    </div>
+
+                    <!-- Mini Pricing Guide -->
+                    <div class="w-full md:w-1/2 bg-gray-900 rounded-2xl p-6 text-white relative overflow-hidden shadow-lg">
+                        <div class="absolute -right-6 -top-6 w-32 h-32 bg-red-600 opacity-20 rounded-full blur-2xl"></div>
+                        <h3 class="text-sm font-bold uppercase tracking-widest text-gray-400 mb-4">Pricing Guide</h3>
+                        <div class="space-y-3 relative z-10">
+                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                                <span class="font-bold text-gray-100">Finance Parliament</span>
+                                <span class="font-black text-red-400 text-lg">₹<span id="display-price-finance">500</span></span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                                <span class="font-bold text-gray-100">IPL Mega Auction</span>
+                                <span class="font-black text-red-400 text-lg">₹<span id="display-price-ipl">200</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row lg:space-x-8">
+            <!-- LEFT COLUMN: FORM -->
+            <form id="registration-form" class="flex-[2] space-y-6">
+                
+                <div class="flex items-center mb-6 pl-2 animate-slide-up" style="animation-delay: 0.3s; opacity: 0;">
+                    <span class="bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mr-3 shadow-md shadow-red-600/30">2</span>
+                    <h2 class="text-xl font-extrabold text-gray-900">Participant Details</h2>
+                </div>
+
+                <div id="dynamic-participants-container" class="space-y-6 relative">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="pt-8 sticky bottom-6 z-40 lg:static animate-slide-up" style="animation-delay: 0.5s; opacity: 0;">
+                    <button type="submit" id="submit-btn" class="w-full group flex justify-center items-center py-5 px-6 rounded-2xl shadow-xl shadow-red-600/20 text-lg font-black text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 focus:outline-none focus:ring-4 focus:ring-red-500/30 theme-transition transform hover:-translate-y-1 active:translate-y-0 border border-red-500 overflow-hidden relative">
+                        <div class="absolute inset-0 w-full h-full bg-white/20 translate-x-[-100%] skew-x-[-15deg] group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                        <svg class="w-6 h-6 mr-3 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        <span class="button-text tracking-wide z-10">Proceed to Secure Checkout</span>
+                    </button>
+                    <p class="text-center text-xs text-gray-500 mt-4 font-bold flex justify-center items-center">
+                        <svg class="w-3.5 h-3.5 mr-1.5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+                        Your data is encrypted and securely processed.
+                    </p>
+                </div>
+            </form>
+
+            <!-- RIGHT COLUMN: TOTAL SUMMARY -->
+            <div class="w-full lg:flex-[1] mt-10 lg:mt-0 animate-slide-up" style="animation-delay: 0.4s; opacity: 0;">
+                <div class="lg:sticky lg:top-28 bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl shadow-red-900/5 border border-gray-100/50">
+                    <div class="flex items-center mb-8 pb-5 border-b border-gray-100">
+                        <div class="bg-gray-100 p-2.5 rounded-xl mr-4 shadow-inner">
+                            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <h2 class="text-2xl font-extrabold text-gray-900">Summary</h2>
+                    </div>
+
+                    <div class="space-y-5 mb-8">
+                        <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <span class="font-bold text-gray-600">Total Participants</span>
+                            <span class="font-black text-gray-900 text-lg bg-white px-3 py-1 rounded-lg shadow-sm border border-gray-200" id="summary-attendee-count">1</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 shadow-xl shadow-gray-900/20 relative overflow-hidden">
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-white opacity-5 rounded-full blur-2xl"></div>
+                        <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Grand Total</label>
+                        <div id="grand-total-price" class="text-5xl font-black tracking-tight text-white transition-all transform origin-left">₹0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 mt-12 border-t border-gray-800">
+        <div class="container mx-auto max-w-6xl px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4">SAMAKSH 2026</h4>
+                <p class="text-sm leading-relaxed text-gray-500 mb-4">The premier finance and tech symposium hosted by the School of BFSI. Empowering students and professionals through interactive events and networking.</p>
+                <div class="flex items-center space-x-2 text-sm text-gray-500">
+                    <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span>support@samaksh2026.com</span>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4">Secure Processing</h4>
+                <p class="text-sm leading-relaxed text-gray-500 mb-4">All transactions are secured and processed directly via the Unified Payments Interface (UPI) backed by NPCI.</p>
+                <div class="flex space-x-3 opacity-50 grayscale hover:grayscale-0 transition-all">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" alt="UPI" class="h-6 bg-white px-2 py-1 rounded">
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-lg mb-4">Terms & Policies</h4>
+                <ul class="text-sm space-y-2 text-gray-500">
+                    <li><a href="#" class="hover:text-white transition-colors">Refund & Cancellation Policy</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto max-w-6xl px-4 mt-12 pt-8 border-t border-gray-800 text-xs text-center text-gray-600 font-bold">
+            &copy; 2026 School of BFSI - SAMAKSH Organizing Committee. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Animated UPI Payment Modal -->
+    <div id="upi-modal" class="fixed inset-0 z-[150] flex items-center justify-center p-4 hidden bg-gray-900/80 backdrop-blur-sm transition-opacity duration-300" role="dialog">
+        <div id="upi-modal-content" class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 sm:p-8 text-center border border-gray-200 max-h-[95vh] overflow-y-auto transform opacity-0 scale-95 translate-y-4 transition-all duration-400 ease-out relative">
+            
+            <!-- Animated Ping Header -->
+            <div class="flex justify-center mb-6 relative h-16 w-16 mx-auto mt-2">
+                <div class="absolute inset-0 bg-red-100 rounded-full flex items-center justify-center z-10 shadow-inner">
+                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                </div>
+                <div class="ping-element absolute inset-0 z-0"></div>
+            </div>
+
+            <h3 class="text-2xl font-black text-gray-900 mb-1">Awaiting Payment</h3>
+            <p class="text-sm text-gray-500 mb-6 font-semibold">Scan to pay securely via any UPI App</p>
+
+            <!-- Animated QR Container -->
+            <div class="relative inline-block bg-white p-4 rounded-2xl border border-gray-200 mb-6 shadow-lg pulse-ring">
+                <!-- The Scanning Laser Line -->
+                <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none z-20">
+                    <div class="scan-line"></div>
+                </div>
+                <!-- Dynamically Generated QR Image -->
+                <img id="upi-qr-image" src="" alt="UPI QR Code" class="w-44 h-44 sm:w-52 sm:h-52 object-contain mix-blend-multiply relative z-10 transition-transform duration-500 hover:scale-105">
+            </div>
+
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Payable Amount</p>
+            <p class="text-4xl sm:text-5xl font-black text-red-600 mb-8 drop-shadow-sm" id="upi-amount-display">₹0</p>
+
+            <div class="bg-blue-50/80 border border-blue-100 rounded-2xl p-4 mb-6 text-left shadow-inner">
+                <p class="text-xs font-bold text-blue-800 mb-1.5 flex items-center">
+                    <svg class="w-4 h-4 mr-1.5 flex-shrink-0 animate-pulse" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                    Verify your transaction
+                </p>
+                <p class="text-[11px] sm:text-xs text-blue-700 leading-relaxed font-medium">To instantly verify your payment, enter the 12-digit UTR (Unique Transaction Reference) found in your GPay/PhonePe/Paytm success screen.</p>
+            </div>
+
+            <form id="utr-form" class="space-y-5">
+                <div>
+                    <input type="text" id="utr-input" placeholder="Enter 12-Digit UTR Number" required minlength="12" maxlength="12" title="Please enter the exact 12-digit transaction reference number" class="block w-full rounded-2xl border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 focus:ring-4 focus:ring-red-500/20 text-lg font-bold text-center tracking-widest p-4 border bg-gray-50 transition-all outline-none placeholder:text-gray-400 placeholder:tracking-normal placeholder:font-normal" autocomplete="off">
+                </div>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 pt-2">
+                    <button type="button" id="cancel-upi-btn" class="w-full sm:w-1/3 bg-white text-gray-700 border-2 border-gray-200 font-bold py-4 px-4 rounded-2xl hover:bg-gray-50 hover:border-gray-300 transition-colors">Cancel</button>
+                    <button type="submit" id="modal-submit-btn" class="w-full sm:w-2/3 bg-gray-900 text-white font-bold py-4 px-4 rounded-2xl hover:bg-black shadow-xl shadow-gray-900/20 transition-all flex justify-center items-center transform active:scale-95">
+                        <span class="btn-text">Verify Payment</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="reg-modal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 hidden" role="dialog">
+        <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm transition-opacity"></div>
+        <div class="relative bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full transform transition-all opacity-0 scale-95" id="modal-content">
+            <div class="text-center">
+                <div id="modal-icon" class="mx-auto flex h-16 w-16 items-center justify-center rounded-full shadow-inner"></div>
+                <h3 id="modal-title" class="mt-6 text-2xl font-black text-gray-900 tracking-tight"></h3>
+                <div class="mt-3 text-sm text-gray-600 font-medium leading-relaxed"><p id="modal-message"></p></div>
+            </div>
+            <div class="mt-8">
+                <button type="button" id="modal-close-btn" class="inline-flex w-full justify-center rounded-2xl bg-gray-900 px-4 py-4 text-base font-bold text-white shadow-lg hover:bg-black transition-colors">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invoice / Ticket Modal -->
+    <div id="invoice-modal" class="fixed inset-0 z-[200] overflow-y-auto p-4 sm:p-8 print-this-section hidden bg-gray-900/90 backdrop-blur-md" role="dialog">
+        <div class="relative w-full max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl print-content flex flex-col overflow-hidden border border-gray-200">
+            <!-- Invoice Header -->
+            <div class="p-8 md:p-10 border-b-[8px] border-red-600 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50">
+                <div class="flex items-center space-x-5 mb-6 sm:mb-0">
+                    <img src="image_60255d.jpg" alt="Logo" class="h-16 md:h-20 w-auto rounded-xl shadow-sm border border-gray-200">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">SAMAKSH 2026</h2>
+                        <p class="text-xs md:text-sm font-bold text-red-600 uppercase tracking-widest mt-1">School of BFSI - Entry Ticket</p>
+                    </div>
+                </div>
+                <div class="sm:text-right">
+                    <p class="text-lg md:text-xl font-bold text-gray-800" id="bill-date">Date Here</p>
+                    <p class="text-[10px] md:text-xs text-gray-500 mt-2 font-bold uppercase tracking-wider">Payment Status: <span class="font-black text-amber-600 bg-amber-50 border border-amber-200 px-2 py-1 rounded ml-1">PENDING VERIFICATION</span></p>
+                </div>
+            </div>
+
+            <!-- Invoice Details -->
+            <div class="p-8 md:p-10 border-b border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Primary Registrant</h3>
+                    <p class="text-2xl font-black text-gray-900" id="bill-name">Name Here</p>
+                    <p class="text-gray-600 mt-2 font-medium text-sm" id="bill-email">email@example.com</p>
+                    <p class="text-gray-600 font-medium text-sm mt-1" id="bill-phone">+91 0000000000</p>
+                </div>
+                <div class="md:text-right bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Transaction Summary</h3>
+                    <p class="text-gray-800 font-medium text-sm">UTR/Ref: <span class="font-mono font-bold text-gray-700 ml-2 bg-white px-3 py-1.5 border border-gray-200 rounded-lg shadow-sm" id="bill-payment-id">...</span></p>
+                    <p class="text-gray-800 font-bold mt-5">Amount Paid: <span class="text-3xl font-black text-red-600 ml-2" id="bill-total">₹0</span></p>
+                </div>
+            </div>
+
+            <!-- Participants & QR Codes List -->
+            <div class="p-8 md:p-10 bg-white flex-grow">
+                <div class="flex justify-between items-end mb-8 pb-4 border-b border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900 border-l-4 border-red-600 pl-4">Your Entry Passes</h3>
+                    <p class="text-xs text-gray-600 font-bold bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 uppercase tracking-wider" id="bill-pass-type">Group Pass</p>
+                </div>
+                
+                <div id="bill-participants-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Participant QR blocks injected via JS -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="p-6 md:p-8 bg-gray-50 border-t border-gray-200 flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 print-hide">
+                <button type="button" id="invoice-close-btn" class="w-full sm:w-auto inline-flex justify-center rounded-2xl bg-white px-8 py-4 text-sm font-bold text-gray-700 shadow-sm border-2 border-gray-200 hover:bg-gray-50 transition-colors">
+                    Close
+                </button>
+                <button type="button" id="invoice-print-btn" class="w-full sm:w-auto inline-flex justify-center items-center rounded-2xl bg-gray-900 px-8 py-4 text-sm font-bold text-white shadow-lg hover:bg-black transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Print / Save as PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global CSS for JS animations -->
+    <style>
+        .custom-focus-ring:focus-within {
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+            border-color: #dc2626;
+            transform: translateY(-2px);
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_BASE_URL = 'http://localhost:3000'; 
+            const QR_API_BASE_URL = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=';
+
+            // --- Configuration ---
+            const UPI_ID = "admin@ybl";      
+            
+            // SECURITY: Freeze the object so it cannot be tampered with globally
+            const EVENT_PRICES = Object.freeze({
+                'finance-parliament': 500,       
+                'ipl-auction': 200               
+            });
+
+            // Set UI headers
+            document.getElementById('display-price-finance').textContent = EVENT_PRICES['finance-parliament'];
+            document.getElementById('display-price-ipl').textContent = EVENT_PRICES['ipl-auction'];
+
+            let numberOfParticipants = 1;
+            let currentTotalPrice = 0;
+
+            // DOM Elements
+            const form = document.getElementById('registration-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const submitBtnText = submitBtn.querySelector('.button-text');
+            const priceEl = document.getElementById('grand-total-price');
+            
+            const groupSizeSelect = document.getElementById('group-size');
+            const participantsContainer = document.getElementById('dynamic-participants-container');
+            const summaryAttendeeCount = document.getElementById('summary-attendee-count');
+            
+            // Modal Elements
+            const upiModal = document.getElementById('upi-modal');
+            const upiModalContent = document.getElementById('upi-modal-content');
+            const modalSubmitBtn = document.getElementById('modal-submit-btn');
+            const modalSubmitBtnText = modalSubmitBtn.querySelector('.btn-text');
+
+            groupSizeSelect.addEventListener('change', (e) => {
+                numberOfParticipants = parseInt(e.target.value);
+                generateParticipantForms();
+            });
+
+            // Delegate event listener for Radio buttons to update price dynamically
+            participantsContainer.addEventListener('change', (e) => {
+                if (e.target.name && e.target.name.startsWith('p_event_')) {
+                    calculateTotalPrice();
+                }
+            });
+
+            // Generate HTML for each participant including Radio Cards
+            function generateParticipantForms() {
+                participantsContainer.innerHTML = '';
+                for (let i = 1; i <= numberOfParticipants; i++) {
+                    const isPrimary = i === 1;
+                    const delay = 0.1 * i; // Staggered animation delay
+                    
+                    const participantHtml = `
+                        <div class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/40 animate-slide-up" style="animation-delay: ${delay}s; opacity: 0; fill-mode: forwards;">
+                            <h3 class="text-lg font-bold text-gray-900 mb-6 pb-4 border-b border-gray-100 flex items-center">
+                                <div class="bg-gray-900 text-white text-sm font-black w-8 h-8 rounded-full flex items-center justify-center mr-3 shadow-md shadow-gray-900/30">${i}</div>
+                                ${isPrimary ? 'Primary Registrant' : 'Participant ' + i}
+                            </h3>
+                            
+                            <div class="grid grid-cols-1 gap-5 mb-6">
+                                <!-- Radio Cards for Event Selection -->
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Select Pass Type <span class="text-red-500">*</span></label>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <!-- Finance Parliament Card -->
+                                        <label class="cursor-pointer relative">
+                                            <input type="radio" name="p_event_${i}" value="finance-parliament" class="radio-card-input sr-only" ${isPrimary ? 'checked' : ''}>
+                                            <div class="radio-card-content p-4 rounded-2xl border-2 border-gray-200 bg-white flex flex-col items-center justify-center text-center h-full relative overflow-hidden">
+                                                <div class="check-icon absolute top-3 right-3 bg-red-600 text-white rounded-full p-0.5 opacity-0 transform scale-50 transition-all duration-200">
+                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                                                </div>
+                                                <span class="font-bold text-gray-900 mb-1">Finance Parliament</span>
+                                                <span class="text-sm font-black text-red-600 bg-red-50 px-2.5 py-0.5 rounded-lg border border-red-100 mt-1">₹${EVENT_PRICES['finance-parliament']}</span>
+                                            </div>
+                                        </label>
+                                        
+                                        <!-- IPL Auction Card -->
+                                        <label class="cursor-pointer relative">
+                                            <input type="radio" name="p_event_${i}" value="ipl-auction" class="radio-card-input sr-only" ${!isPrimary ? 'checked' : ''}>
+                                            <div class="radio-card-content p-4 rounded-2xl border-2 border-gray-200 bg-white flex flex-col items-center justify-center text-center h-full relative overflow-hidden">
+                                                <div class="check-icon absolute top-3 right-3 bg-red-600 text-white rounded-full p-0.5 opacity-0 transform scale-50 transition-all duration-200">
+                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                                                </div>
+                                                <span class="font-bold text-gray-900 mb-1">IPL Mega Auction</span>
+                                                <span class="text-sm font-black text-red-600 bg-red-50 px-2.5 py-0.5 rounded-lg border border-red-100 mt-1">₹${EVENT_PRICES['ipl-auction']}</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div class="sm:col-span-2 custom-focus-ring rounded-xl transition-all duration-200 bg-gray-50 border border-gray-200 p-1">
+                                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest px-3 pt-2">Full Name</label>
+                                    <input type="text" name="p_name_${i}" required class="block w-full bg-transparent border-none focus:ring-0 sm:text-base font-bold text-gray-900 px-3 pb-2 outline-none">
+                                </div>
+                                <div class="custom-focus-ring rounded-xl transition-all duration-200 bg-gray-50 border border-gray-200 p-1">
+                                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest px-3 pt-2">Email Address</label>
+                                    <input type="email" name="p_email_${i}" required class="block w-full bg-transparent border-none focus:ring-0 sm:text-sm font-bold text-gray-900 px-3 pb-2 outline-none">
+                                </div>
+                                <div class="custom-focus-ring rounded-xl transition-all duration-200 bg-gray-50 border border-gray-200 p-1">
+                                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest px-3 pt-2">Phone Number</label>
+                                    <input type="tel" name="p_phone_${i}" required class="block w-full bg-transparent border-none focus:ring-0 sm:text-sm font-bold text-gray-900 px-3 pb-2 outline-none">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    participantsContainer.insertAdjacentHTML('beforeend', participantHtml);
+                }
+                summaryAttendeeCount.textContent = `${numberOfParticipants}`;
+                calculateTotalPrice();
+            }
+
+            function calculateTotalPrice() {
+                currentTotalPrice = 0;
+                for (let i = 1; i <= numberOfParticipants; i++) {
+                    const checkedRadio = document.querySelector(`input[name="p_event_${i}"]:checked`);
+                    if (checkedRadio && EVENT_PRICES[checkedRadio.value]) {
+                        currentTotalPrice += EVENT_PRICES[checkedRadio.value];
+                    }
+                }
+                
+                // Trigger price pop animation
+                priceEl.innerText = `₹${currentTotalPrice.toLocaleString('en-IN')}`;
+                priceEl.classList.remove('price-pop');
+                void priceEl.offsetWidth; // Trigger reflow to restart animation
+                priceEl.classList.add('price-pop');
+            }
+
+            // Initialize UI on load
+            generateParticipantForms();
+
+            // Animated Modal Controls
+            function showUpiModal() {
+                upiModal.classList.remove('hidden');
+                setTimeout(() => {
+                    upiModalContent.classList.remove('opacity-0', 'scale-95', 'translate-y-4');
+                    upiModalContent.classList.add('opacity-100', 'scale-100', 'translate-y-0');
+                }, 10);
+            }
+
+            function hideUpiModal() {
+                upiModalContent.classList.remove('opacity-100', 'scale-100', 'translate-y-0');
+                upiModalContent.classList.add('opacity-0', 'scale-95', 'translate-y-4');
+                setTimeout(() => {
+                    upiModal.classList.add('hidden');
+                    document.getElementById('utr-form').reset();
+                }, 300); 
+            }
+
+            // 1. Initial Form Submit triggers UPI Modal
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // SECURITY: Strictly recalculate price right before generating QR
+                let verifyTotal = 0;
+                for (let i = 1; i <= numberOfParticipants; i++) {
+                    const checkedRadio = document.querySelector(`input[name="p_event_${i}"]:checked`);
+                    if (checkedRadio && EVENT_PRICES[checkedRadio.value]) {
+                        verifyTotal += EVENT_PRICES[checkedRadio.value];
+                    }
+                }
+                currentTotalPrice = verifyTotal;
+
+                // Standard UPI intent structure
+                const upiUrl = `upi://pay?pa=${UPI_ID}&pn=SAMAKSH%202026&am=${currentTotalPrice}&cu=INR`;
+                const qrImgSrc = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+                
+                document.getElementById('upi-qr-image').src = qrImgSrc;
+                document.getElementById('upi-amount-display').textContent = `₹${currentTotalPrice.toLocaleString('en-IN')}`;
+                
+                showUpiModal();
+            });
+
+            // 2. Hide Modal on Cancel
+            document.getElementById('cancel-upi-btn').addEventListener('click', hideUpiModal);
+
+            // 3. Finalize registration when UTR is provided
+            document.getElementById('utr-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const utr = document.getElementById('utr-input').value.trim();
+                
+                // Show loader in modal button
+                modalSubmitBtn.disabled = true;
+                modalSubmitBtnText.innerHTML = `<span class="spinner w-5 h-5 border-2 border-t-transparent rounded-full mr-2 inline-block"></span> Verifying...`;
+
+                const registrationData = getFormData();
+                registrationData.utr = utr; // Send UTR to server
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}/submit-registration`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(registrationData) 
+                    });
+
+                    if (!response.ok) {
+                        const errData = await response.json().catch(()=>({}));
+                        throw new Error(errData.error || 'Server registration failed.');
+                    }
+
+                    const result = await response.json(); 
+                    if (!result.savedRegistration) {
+                        throw new Error('Missing essential data from server.');
+                    }
+
+                    hideUpiModal();
+                    
+                    // Show success invoice
+                    setTimeout(() => {
+                        showInvoice(result.savedRegistration, utr);
+                        form.reset();
+                        document.getElementById('group-size').value = "1";
+                        numberOfParticipants = 1;
+                        generateParticipantForms();
+                    }, 300);
+
+                } catch (error) {
+                    hideUpiModal();
+                    setTimeout(() => {
+                        showModal('Registration Issue', error.message || `Could not complete transaction. Please verify if you have already registered to avoid double entries.`, 'warning');
+                    }, 300);
+                } finally {
+                    setTimeout(() => {
+                        modalSubmitBtn.disabled = false;
+                        modalSubmitBtnText.textContent = `Verify Payment`;
+                    }, 300);
+                }
+            });
+
+            function getFormData() {
+                const formData = new FormData(form);
+                const members = [];
+                
+                for (let i = 1; i <= numberOfParticipants; i++) {
+                    const checkedRadio = form.querySelector(`input[name="p_event_${i}"]:checked`);
+                    const eventValue = checkedRadio.value;
+                    const eventName = eventValue === 'finance-parliament' ? 'Finance Parliament' : 'IPL Mega Auction';
+
+                    members.push({
+                        name: formData.get(`p_name_${i}`),
+                        email: formData.get(`p_email_${i}`),
+                        phone: formData.get(`p_phone_${i}`),
+                        eventValue: eventValue,
+                        eventName: eventName
+                    });
+                }
+
+                const primary = members[0];
+                const selectedEventValue = numberOfParticipants > 1 ? 'mixed' : primary.eventValue;
+                const selectedEventName = numberOfParticipants > 1 ? 'Multiple Events' : primary.eventName;
+
+                return {
+                    organization: {
+                        name: numberOfParticipants > 1 ? "Group Sign Up" : "Individual Sign Up", 
+                        contactPerson: primary.name,
+                        contactEmail: primary.email,
+                        contactPhone: primary.phone,
+                    },
+                    teams: [{ 
+                        teamName: numberOfParticipants > 1 ? "Group of " + numberOfParticipants : "Individual",
+                        eventValue: selectedEventValue, 
+                        eventName: selectedEventName,
+                        members: members
+                    }],
+                    subTotal: currentTotalPrice,
+                    grandTotal: currentTotalPrice
+                };
+            }
+
+            // Invoice Generator 
+            function showInvoice(savedRegistration, paymentId) {
+                document.getElementById('bill-date').textContent = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+                document.getElementById('bill-name').textContent = savedRegistration.organization.contactPerson;
+                document.getElementById('bill-email').textContent = savedRegistration.organization.contactEmail;
+                document.getElementById('bill-phone').textContent = savedRegistration.organization.contactPhone;
+                
+                document.getElementById('bill-payment-id').textContent = paymentId;
+                document.getElementById('bill-total').textContent = `₹${savedRegistration.grandTotal.toLocaleString('en-IN')}`;
+                
+                const members = savedRegistration.teams[0].members;
+                const isGroup = members.length > 1;
+                document.getElementById('bill-pass-type').textContent = isGroup 
+                    ? `Group Pass (${members.length} Members)` 
+                    : `Individual Pass`;
+
+                const container = document.getElementById('bill-participants-container');
+                container.innerHTML = ''; 
+
+                members.forEach((member, index) => {
+                    const qrUrl = QR_API_BASE_URL + encodeURIComponent(member.entryCode);
+                    const passHtml = `
+                        <div class="bg-gray-50 border border-gray-200 rounded-3xl p-6 shadow-sm flex flex-col items-center text-center page-break relative overflow-hidden">
+                            <div class="absolute top-0 w-full h-1.5 bg-red-600 left-0"></div>
+                            <span class="bg-white border border-gray-200 text-gray-500 text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded-full mb-4 mt-2">Participant ${index + 1}</span>
+                            <h4 class="font-extrabold text-xl text-gray-900 line-clamp-1 w-full">${member.name}</h4>
+                            <p class="text-xs font-bold text-red-600 mb-5 h-4 line-clamp-1 uppercase tracking-wider">${member.eventName}</p>
+                            
+                            <div class="p-3 border-2 border-dashed border-gray-300 rounded-2xl bg-white mb-5 w-full flex justify-center">
+                                <img src="${qrUrl}" alt="QR Code" class="w-36 h-36 object-contain mix-blend-multiply">
+                            </div>
+                            
+                            <p class="text-sm font-mono font-extrabold tracking-widest text-gray-800 bg-gray-200/50 px-4 py-2 rounded-lg">${member.entryCode}</p>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', passHtml);
+                });
+
+                document.getElementById('invoice-modal').classList.remove('hidden');
+            }
+
+            const modalIcons = {
+                success: { bg: 'bg-green-100', text: 'text-green-600', svg: `<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>` },
+                warning: { bg: 'bg-amber-100', text: 'text-amber-600', svg: `<svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" /></svg>` }
+            };
+
+            function showModal(title, message, type = 'success') {
+                const icon = modalIcons[type] || modalIcons['success'];
+                const modal = document.getElementById('reg-modal');
+                const content = document.getElementById('modal-content');
+                document.getElementById('modal-icon').innerHTML = icon.svg;
+                document.getElementById('modal-icon').className = `mx-auto flex h-16 w-16 items-center justify-center rounded-full shadow-inner ${icon.bg} ${icon.text}`;
+                document.getElementById('modal-title').textContent = title;
+                document.getElementById('modal-message').textContent = message;
+                modal.classList.remove('hidden');
+                setTimeout(() => { content.style.opacity = '1'; content.style.transform = 'scale(1)'; }, 10);
+            }
+
+            document.getElementById('modal-close-btn').addEventListener('click', () => {
+                const modal = document.getElementById('reg-modal');
+                const content = document.getElementById('modal-content');
+                content.style.opacity = '0';
+                content.style.transform = 'scale(0.95)';
+                setTimeout(() => modal.classList.add('hidden'), 200);
+            });
+
+            document.getElementById('invoice-close-btn').addEventListener('click', () => document.getElementById('invoice-modal').classList.add('hidden'));
+            document.getElementById('invoice-print-btn').addEventListener('click', () => window.print());
+        });
+    </script>
+</body>
+</html>
