@@ -15,10 +15,23 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// --- EVENT PRICING CONFIGURATION ---
+// --- EVENT PRICING & LIMITS CONFIGURATION ---
 const PRICES = {
-    'finance-parliament': 500, // Change this to your actual price
-    'ipl-auction': 800         // Change this to your actual price
+    'finance-parliament-delegate': 500, 
+    'finance-parliament-press': 500,
+    'ipl-auction': 200         
+};
+
+const EVENT_LIMITS = {
+    'finance-parliament-delegate': 45,
+    'finance-parliament-press': 5,
+    'ipl-auction': 50
+};
+
+const EVENT_NAMES = {
+    'finance-parliament-delegate': 'Finance Parliament (Delegate)',
+    'finance-parliament-press': 'Finance Parliament (Press)',
+    'ipl-auction': 'IPL Mega Auction'
 };
 
 // --- 1. SECURITY: Basic Authentication ---
@@ -51,7 +64,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname)));
 
 // --- 3. DATABASE CONNECTION ---
-const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://admin-july:Ansh2204@m0.nwuak9s.mongodb.net/?appName=M0' ;
+const MONGO_URI = process.env.MONGO_URI  ;
 
 mongoose.connect(MONGO_URI)
     .then(async () => {
@@ -94,10 +107,43 @@ const Registration = mongoose.model('Registration', RegistrationSchema);
 
 /**
  * Generates a unique, recognizable entry code for the fest.
- * Pattern: SMK26-XXXX (where XXXX is random hex)
  */
 function generateEntryCode() { 
     return 'SMK26-' + crypto.randomBytes(2).toString('hex').toUpperCase(); 
+}
+
+/**
+ * Checks current database capacity against hard limits
+ */
+async function checkCapacity(requestedCounts) {
+    try {
+        const currentCounts = await Registration.aggregate([
+            { $unwind: "$teams" },
+            { $unwind: "$teams.members" },
+            { $group: { _id: "$teams.members.eventValue", count: { $sum: 1 } } }
+        ]);
+
+        const countMap = {};
+        currentCounts.forEach(c => countMap[c._id] = c.count);
+
+        for (const [eventValue, reqCount] of Object.entries(requestedCounts)) {
+            const limit = EVENT_LIMITS[eventValue];
+            if (limit !== undefined) {
+                const current = countMap[eventValue] || 0;
+                if (current + reqCount > limit) {
+                    const available = Math.max(0, limit - current);
+                    return { 
+                        allowed: false, 
+                        error: `${EVENT_NAMES[eventValue] || eventValue} is full. Only ${available} spots remaining.` 
+                    };
+                }
+            }
+        }
+        return { allowed: true };
+    } catch (e) {
+        console.error("Database error during capacity check:", e);
+        return { allowed: false, error: 'Failed to verify seat availability.' };
+    }
 }
 
 // --- 5. ENDPOINTS ---
@@ -108,7 +154,6 @@ app.post('/admin/toggle-payment', basicAuth, async (req, res) => {
         const reg = await Registration.findById(registrationId);
         if (!reg) return res.status(404).json({ error: 'Registration not found' });
         
-        // Toggle between 'successful' and 'pending'
         reg.paymentStatus = reg.paymentStatus === 'successful' ? 'pending' : 'successful';
         await reg.save();
         
@@ -118,11 +163,21 @@ app.post('/admin/toggle-payment', basicAuth, async (req, res) => {
     }
 });
 
+app.post('/admin/delete-registration', basicAuth, async (req, res) => {
+    const { registrationId } = req.body;
+    try {
+        const deleted = await Registration.findByIdAndDelete(registrationId);
+        if (!deleted) return res.status(404).json({ error: 'Registration not found' });
+        
+        res.json({ status: 'success' });
+    } catch (err) { 
+        res.status(500).json({ error: 'Failed to delete registration' }); 
+    }
+});
+
 app.post('/submit-registration', async (req, res) => {
     const data = req.body;
-    const amount = data.grandTotal;
     const utr = data.utr || 'UPI_MANUAL';
-
     const escapeRegex = (string) => string ? string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : '';
 
     try {
@@ -142,6 +197,20 @@ app.post('/submit-registration', async (req, res) => {
         console.error("Duplicate check error:", err);
     }
 
+    // Capacity Check
+    const requestedCounts = {};
+    if (data.teams && data.teams[0]?.members) {
+        data.teams[0].members.forEach(m => {
+            requestedCounts[m.eventValue] = (requestedCounts[m.eventValue] || 0) + 1;
+        });
+    }
+
+    const capacityResult = await checkCapacity(requestedCounts);
+    if (!capacityResult.allowed) {
+        return res.status(400).json({ error: capacityResult.error });
+    }
+
+    // Generate codes & save
     if (data.teams && data.teams[0]?.members) {
         data.teams[0].members = data.teams[0].members.map(m => ({ ...m, entryCode: generateEntryCode() }));
     }
@@ -150,7 +219,7 @@ app.post('/submit-registration', async (req, res) => {
         const newReg = new Registration({ 
             ...data, 
             entryCode: generateEntryCode(), 
-            paymentStatus: 'pending', // Default to pending so admin MUST verify it
+            paymentStatus: 'pending', 
             paymentId: utr, 
             orderId: 'UPI_' + Date.now() 
         });
@@ -162,7 +231,6 @@ app.post('/submit-registration', async (req, res) => {
         res.status(500).json({ error: 'Registration failed' }); 
     }
 });
-
 
 app.post('/verify-ticket', async (req, res) => {
     const { entryCode, mode = 'event', day = 'day1' } = req.body;
@@ -205,7 +273,6 @@ app.post('/admin/register-cash', basicAuth, async (req, res) => {
     const escapeRegex = (string) => string ? string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : '';
     
     try {
-        // Prevent double entries based on Name and Email for Cash too
         const existingEntry = await Registration.findOne({
             "organization.contactEmail": { $regex: new RegExp(`^${escapeRegex(email)}$`, 'i') },
             "organization.contactPerson": { $regex: new RegExp(`^${escapeRegex(name)}$`, 'i') }
@@ -213,6 +280,12 @@ app.post('/admin/register-cash', basicAuth, async (req, res) => {
 
         if (existingEntry) {
             return res.status(400).json({ error: 'A registration with this Name and Email already exists.' });
+        }
+
+        // Admin Capacity Check
+        const capacityResult = await checkCapacity({ [eventValue]: 1 });
+        if (!capacityResult.allowed) {
+            return res.status(400).json({ error: capacityResult.error });
         }
 
         const calculatedAmount = PRICES[eventValue] || 500;

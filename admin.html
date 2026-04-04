@@ -54,16 +54,8 @@
 
     <div class="container mx-auto max-w-[90rem] px-4 py-8 sm:py-12">
         
-        <!-- Day Toggle & Export Controls -->
-        <div class="bg-white rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100 p-5 mb-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div class="flex items-center space-x-4">
-                <span class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Dashboard View</span>
-                <div class="flex bg-gray-100 p-1 rounded-xl shadow-inner">
-                    <button id="view-day1-btn" class="px-5 py-2 rounded-lg text-sm font-bold shadow-sm bg-white text-red-700 transition-all">Day 1 Data</button>
-                    <button id="view-day2-btn" class="px-5 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all">Day 2 Data</button>
-                </div>
-            </div>
-            
+        <!-- Export Controls -->
+        <div class="bg-white rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100 p-5 mb-8 flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0">
             <div class="flex space-x-3">
                 <button id="export-csv-btn" class="flex items-center px-5 py-2.5 border border-gray-200 rounded-xl shadow-sm text-sm font-bold text-gray-700 bg-white hover:bg-gray-50 transition-colors">
                     <svg class="h-5 w-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -77,7 +69,7 @@
         </div>
 
         <div class="flex justify-between items-end mb-6">
-            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight"><span id="table-title-day">Day 1</span> Registrations</h2>
+            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Registrations</h2>
             
             <div class="flex space-x-3 items-center">
                 <button id="print-selected-btn" class="hidden items-center px-5 py-2.5 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-red-600 hover:bg-red-700 transition-all">
@@ -90,23 +82,52 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+        <!-- General Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div class="bg-white p-6 rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100">
                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Passes Sold</p>
                 <p id="total-paid" class="mt-2 text-4xl font-extrabold text-gray-900">0</p>
             </div>
             <div class="bg-white p-6 rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Fest Entry (<span class="stat-day-label">Day 1</span>)</p>
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Fest Entries Used</p>
                 <p id="total-used" class="mt-2 text-4xl font-extrabold text-blue-600">0</p>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100">
-                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Lunches (<span class="stat-day-label">Day 1</span>)</p>
-                <p id="total-lunches" class="mt-2 text-4xl font-extrabold text-orange-500">0</p>
             </div>
             <div class="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-2xl shadow-xl relative overflow-hidden">
                 <div class="absolute -right-4 -top-4 w-20 h-20 bg-white opacity-5 rounded-full blur-xl"></div>
                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest relative z-10">Total Revenue</p>
                 <p id="total-revenue" class="mt-2 text-4xl font-extrabold text-white relative z-10">₹0</p>
+            </div>
+        </div>
+
+        <!-- Event Specific Breakdown -->
+        <h3 class="text-lg font-extrabold text-gray-800 mb-4 ml-1">Event Breakdown (Paid Passes)</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+                <div>
+                    <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mb-1">Delegate</p>
+                    <p class="text-sm font-bold text-gray-500">Finance Parliament</p>
+                </div>
+                <div class="text-right">
+                    <p id="count-fp-delegate" class="text-3xl font-extrabold text-gray-900">0 <span class="text-sm text-gray-400 font-medium">/ 45</span></p>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+                <div>
+                    <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mb-1">Press</p>
+                    <p class="text-sm font-bold text-gray-500">Finance Parliament</p>
+                </div>
+                <div class="text-right">
+                    <p id="count-fp-press" class="text-3xl font-extrabold text-gray-900">0 <span class="text-sm text-gray-400 font-medium">/ 5</span></p>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+                <div>
+                    <p class="text-[10px] font-bold text-red-600 uppercase tracking-widest mb-1">Auction</p>
+                    <p class="text-sm font-bold text-gray-500">IPL Mega Auction</p>
+                </div>
+                <div class="text-right">
+                    <p id="count-ipl" class="text-3xl font-extrabold text-gray-900">0 <span class="text-sm text-gray-400 font-medium">/ 50</span></p>
+                </div>
             </div>
         </div>
 
@@ -119,13 +140,12 @@
                             <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Participant</th>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Event Details</th>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Entry Code</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Fest (<span class="table-day-label">Day 1</span>)</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Lunch (<span class="table-day-label">Day 1</span>)</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Entry Status</th>
                         </tr>
                     </thead>
                     <tbody id="entries-table-body" class="bg-white divide-y divide-gray-100">
                         <tr>
-                            <td colspan="6" class="px-6 py-12 text-center text-sm text-gray-500">
+                            <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500">
                                 <div class="flex justify-center items-center"><span class="spinner w-6 h-6 border-2 rounded-full border-red-600 border-t-transparent mr-3"></span> Loading Database...</div>
                             </td>
                         </tr>
@@ -150,7 +170,8 @@
                 <div>
                     <label class="block text-sm font-bold text-gray-700 mb-2">Select Event</label>
                     <select id="cash-event-select" name="event" required class="block w-full rounded-xl border-gray-300 shadow-sm p-3.5 border bg-white focus:ring-red-500 focus:border-red-500 cursor-pointer transition-colors">
-                        <option value="finance-parliament">Finance Parliament</option>
+                        <option value="finance-parliament-delegate">Finance Parliament (Delegate)</option>
+                        <option value="finance-parliament-press">Finance Parliament (Press)</option>
                         <option value="ipl-auction">IPL Mega Auction</option>
                     </select>
                 </div>
@@ -193,27 +214,24 @@
             const API_BASE_URL = ''; 
             const QR_API_BASE_URL = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data='; 
 
-            // Hardcode prices to match backend for UI updates
             const PRICES = {
-                'finance-parliament': 500,
+                'finance-parliament-delegate': 500,
+                'finance-parliament-press': 500,
                 'ipl-auction': 200
             };
 
             let allRegistrations = []; 
             let allParticipants = [];  
-            let currentAdminDay = 'day1'; 
-
-            const viewDay1Btn = document.getElementById('view-day1-btn');
-            const viewDay2Btn = document.getElementById('view-day2-btn');
-            const statDayLabels = document.querySelectorAll('.stat-day-label');
-            const tableDayLabels = document.querySelectorAll('.table-day-label');
-            const tableTitleDay = document.getElementById('table-title-day');
 
             const tableBody = document.getElementById('entries-table-body');
             const totalPaidEl = document.getElementById('total-paid');
             const totalUsedEl = document.getElementById('total-used');
-            const totalLunchesEl = document.getElementById('total-lunches');
             const totalRevenueEl = document.getElementById('total-revenue');
+            
+            // New Counters
+            const countFpDelegateEl = document.getElementById('count-fp-delegate');
+            const countFpPressEl = document.getElementById('count-fp-press');
+            const countIplEl = document.getElementById('count-ipl');
             
             const exportCsvBtn = document.getElementById('export-csv-btn');
 
@@ -234,10 +252,7 @@
                                 eventName: m.eventName || reg.eventName || 'Fest Pass',
                                 entryCode: m.entryCode || reg.entryCode,
                                 paymentStatus: reg.paymentStatus,
-                                day1EntryStatus: m.day1EntryStatus || reg.day1EntryStatus || 'UNUSED',
-                                day2EntryStatus: m.day2EntryStatus || reg.day2EntryStatus || 'UNUSED',
-                                day1LunchStatus: m.day1LunchStatus || reg.day1LunchStatus || 'UNUSED',
-                                day2LunchStatus: m.day2LunchStatus || reg.day2LunchStatus || 'UNUSED',
+                                entryStatus: m.day1EntryStatus || reg.day1EntryStatus || 'UNUSED',
                                 registeredAt: reg.registeredAt
                             });
                         });
@@ -250,38 +265,12 @@
                             eventName: reg.eventName || 'Fest Pass',
                             entryCode: reg.entryCode,
                             paymentStatus: reg.paymentStatus,
-                            day1EntryStatus: reg.day1EntryStatus || 'UNUSED',
-                            day2EntryStatus: reg.day2EntryStatus || 'UNUSED',
-                            day1LunchStatus: reg.day1LunchStatus || 'UNUSED',
-                            day2LunchStatus: reg.day2LunchStatus || 'UNUSED',
+                            entryStatus: reg.day1EntryStatus || 'UNUSED',
                             registeredAt: reg.registeredAt
                         });
                     }
                 });
             }
-
-            function updateAdminDayView(day) {
-                currentAdminDay = day;
-                const label = day === 'day1' ? 'Day 1' : 'Day 2';
-                
-                statDayLabels.forEach(el => el.textContent = label);
-                tableDayLabels.forEach(el => el.textContent = label);
-                tableTitleDay.textContent = label;
-
-                if (day === 'day1') {
-                    viewDay1Btn.className = 'px-5 py-2 rounded-lg text-sm font-bold shadow-sm bg-white text-red-700 transition-all';
-                    viewDay2Btn.className = 'px-5 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all bg-transparent shadow-none';
-                } else {
-                    viewDay2Btn.className = 'px-5 py-2 rounded-lg text-sm font-bold shadow-sm bg-white text-red-700 transition-all';
-                    viewDay1Btn.className = 'px-5 py-2 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all bg-transparent shadow-none';
-                }
-
-                updateStats();
-                renderTable();
-            }
-
-            viewDay1Btn.addEventListener('click', () => updateAdminDayView('day1'));
-            viewDay2Btn.addEventListener('click', () => updateAdminDayView('day2'));
 
             function formatStatus(text) {
                 if (!text) return '<span class="status-badge bg-gray-100 text-gray-600 border-gray-300">N/A</span>';
@@ -301,20 +290,30 @@
                 const totalPaidPasses = successfulParticipants.length;
 
                 let totalUsed = 0;
-                let totalLunches = 0;
+                let fpDelegateCount = 0;
+                let fpPressCount = 0;
+                let iplCount = 0;
 
                 successfulParticipants.forEach(p => {
-                    const entryStatus = currentAdminDay === 'day1' ? p.day1EntryStatus : p.day2EntryStatus;
-                    const lunchStatus = currentAdminDay === 'day1' ? p.day1LunchStatus : p.day2LunchStatus;
+                    if (p.entryStatus === 'USED') totalUsed++;
                     
-                    if (entryStatus === 'USED') totalUsed++;
-                    if (lunchStatus === 'USED') totalLunches++;
+                    // Increment Event Counters
+                    if (p.eventName.includes('Delegate')) {
+                        fpDelegateCount++;
+                    } else if (p.eventName.includes('Press')) {
+                        fpPressCount++;
+                    } else if (p.eventName.includes('IPL') || p.eventName.includes('Auction')) {
+                        iplCount++;
+                    }
                 });
 
                 totalPaidEl.textContent = totalPaidPasses.toLocaleString('en-IN');
                 totalUsedEl.textContent = totalUsed.toLocaleString('en-IN');
-                totalLunchesEl.textContent = totalLunches.toLocaleString('en-IN');
                 totalRevenueEl.textContent = `₹${totalRevenue.toLocaleString('en-IN')}`;
+                
+                countFpDelegateEl.innerHTML = `${fpDelegateCount} <span class="text-sm text-gray-400 font-medium">/ 45</span>`;
+                countFpPressEl.innerHTML = `${fpPressCount} <span class="text-sm text-gray-400 font-medium">/ 5</span>`;
+                countIplEl.innerHTML = `${iplCount} <span class="text-sm text-gray-400 font-medium">/ 50</span>`;
             }
 
             function renderTable() {
@@ -322,22 +321,17 @@
                 document.getElementById('select-all').checked = false;
                 
                 if (allParticipants.length === 0) {
-                    tableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-sm text-gray-500 font-bold">No entries found.</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500 font-bold">No entries found.</td></tr>`;
                     return;
                 }
 
                 allParticipants.forEach(p => {
                     const row = document.createElement('tr');
                     
-                    const entryStatus = currentAdminDay === 'day1' ? p.day1EntryStatus : p.day2EntryStatus;
-                    const lunchStatus = currentAdminDay === 'day1' ? p.day1LunchStatus : p.day2LunchStatus;
-
                     if (p.paymentStatus === 'pending') {
                         row.classList.add('bg-red-50/50');
-                    } else if (entryStatus === 'USED' && lunchStatus === 'USED') {
+                    } else if (p.entryStatus === 'USED') {
                         row.classList.add('bg-gray-50');
-                    } else if (entryStatus === 'USED') {
-                        row.classList.add('bg-yellow-50/50');
                     }
 
                     const isSelectable = p.paymentStatus === 'successful';
@@ -358,14 +352,16 @@
                                 <button onclick="togglePaymentStatus('${p.registrationId}')" class="text-xs font-bold underline ml-3 ${p.paymentStatus === 'successful' ? 'text-gray-400 hover:text-red-600' : 'text-green-600 hover:text-green-800'} transition-colors">
                                     ${p.paymentStatus === 'successful' ? 'Revoke' : 'Verify'}
                                 </button>
+                                <button onclick="deleteRegistration('${p.registrationId}')" class="text-xs font-bold underline ml-3 text-red-500 hover:text-red-700 transition-colors">
+                                    Delete
+                                </button>
                             </div>
                         </td>
                         <td class="px-6 py-5 whitespace-nowrap text-sm font-mono font-bold text-red-600 cursor-pointer hover:text-red-800 transition-colors" 
                             onclick="openTicketByCode('${p.entryCode}')">
                             <span class="bg-red-50 px-2 py-1 rounded border border-red-100">${p.entryCode}</span>
                         </td>
-                        <td class="px-6 py-5 whitespace-nowrap text-sm">${formatStatus(entryStatus)}</td>
-                        <td class="px-6 py-5 whitespace-nowrap text-sm">${formatStatus(lunchStatus)}</td>
+                        <td class="px-6 py-5 whitespace-nowrap text-sm">${formatStatus(p.entryStatus)}</td>
                     `;
                     tableBody.appendChild(row);
                 });
@@ -374,11 +370,11 @@
             }
 
             exportCsvBtn.addEventListener('click', () => {
-                let csvContent = "Event Name,Entry Code,Payment Status,Participant Name,Email,Phone,Day 1 Fest,Day 1 Lunch,Day 2 Fest,Day 2 Lunch\n";
+                let csvContent = "Event Name,Entry Code,Payment Status,Participant Name,Email,Phone,Fest Entry Status\n";
                 const sortedParticipants = [...allParticipants].sort((a, b) => a.eventName.localeCompare(b.eventName));
 
                 sortedParticipants.forEach(p => {
-                    const rowStr = `"${p.eventName}","${p.entryCode}","${p.paymentStatus}","${p.name}","${p.email}","${p.phone}","${p.day1EntryStatus}","${p.day1LunchStatus}","${p.day2EntryStatus}","${p.day2LunchStatus}"`;
+                    const rowStr = `"${p.eventName}","${p.entryCode}","${p.paymentStatus}","${p.name}","${p.email}","${p.phone}","${p.entryStatus}"`;
                     csvContent += rowStr + "\n";
                 });
 
@@ -462,6 +458,25 @@
                 }
             };
 
+            window.deleteRegistration = async (registrationId) => {
+                if (!confirm('Are you absolutely sure you want to completely delete this registration? This action cannot be undone.')) return;
+                try {
+                    const res = await fetch(`${API_BASE_URL}/admin/delete-registration`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ registrationId })
+                    });
+                    if (res.ok) {
+                        fetchRegistrations(); 
+                    } else {
+                        const data = await res.json();
+                        alert('Failed to delete registration: ' + (data.error || 'Unknown error'));
+                    }
+                } catch(e) {
+                    alert('Network Error: ' + e.message);
+                }
+            };
+
             window.openTicketByCode = (code) => {
                 const entry = allParticipants.find(p => p.entryCode === code);
                 if (entry) {
@@ -518,19 +533,26 @@
                 try {
                     const response = await fetch(`${API_BASE_URL}/admin/register-cash`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
                     const result = await response.json();
-                    if (response.ok) {
-                        toggleCashModal(false);
-                        await fetchRegistrations();
-                        window.openTicketByCode(result.registration.entryCode);
-                    } else throw new Error(result.error);
-                } catch (error) { alert('Error: ' + error.message); } 
-                finally { submitCashBtn.disabled = false; btnText.textContent = originalText; }
+                    
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Registration failed');
+                    }
+
+                    toggleCashModal(false);
+                    await fetchRegistrations();
+                    window.openTicketByCode(result.registration.entryCode);
+
+                } catch (error) { 
+                    alert('Error: ' + error.message); 
+                } finally { 
+                    submitCashBtn.disabled = false; btnText.textContent = originalText; 
+                }
             });
 
             async function fetchRegistrations() {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="6" class="px-6 py-16 text-center text-sm text-gray-500 font-bold">
+                        <td colspan="5" class="px-6 py-16 text-center text-sm text-gray-500 font-bold">
                             <div class="flex justify-center items-center">
                                 <span class="spinner w-8 h-8 border-4 rounded-full border-red-600 border-t-transparent mr-4"></span> Loading Database...
                             </div>
@@ -550,13 +572,14 @@
                     }
                     
                     processRegistrations(data);
-                    updateAdminDayView(currentAdminDay); 
+                    updateStats();
+                    renderTable();
 
                 } catch (error) {
                     console.error("Fetch Error:", error);
                     tableBody.innerHTML = `
                         <tr>
-                            <td colspan="6" class="px-6 py-10 text-center">
+                            <td colspan="5" class="px-6 py-10 text-center">
                                 <div class="text-red-600 font-extrabold text-lg mb-2">Error connecting to backend server</div>
                                 <div class="text-sm font-medium text-gray-500">Details: ${error.message}</div>
                                 <div class="text-xs font-bold text-gray-400 mt-3 bg-gray-50 inline-block px-4 py-2 rounded-lg border border-gray-200">Make sure "server.js" is running on localhost:3000 and MongoDB is connected.</div>
@@ -565,7 +588,6 @@
                     `;
                     totalPaidEl.textContent = '0';
                     totalUsedEl.textContent = '0';
-                    totalLunchesEl.textContent = '0';
                     totalRevenueEl.textContent = '₹0';
                 } finally {
                     document.getElementById('refresh-btn').disabled = false;

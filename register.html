@@ -165,7 +165,7 @@
 
     <main class="container mx-auto max-w-6xl px-4 py-12 pb-32 lg:pb-16 print-hide">
         
-        <!-- Hero Section (Trust Hero) -->
+        <!-- Hero Section -->
         <div class="text-center mb-14 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;">
             <div class="inline-flex items-center space-x-2 bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 border border-red-100">
                 <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
@@ -206,12 +206,16 @@
                         <h3 class="text-sm font-bold uppercase tracking-widest text-gray-400 mb-4">Pass Pricing</h3>
                         <div class="space-y-3 relative z-10">
                             <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
-                                <span class="font-bold text-gray-100">Finance Parliament</span>
-                                <span class="font-black text-red-400 text-lg">₹500</span>
+                                <span class="font-bold text-gray-100 text-sm">Finance Parliament (Delegate)</span>
+                                <span class="font-black text-red-400 text-base">₹500</span>
                             </div>
                             <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
-                                <span class="font-bold text-gray-100">IPL Mega Auction</span>
-                                <span class="font-black text-red-400 text-lg">₹200</span>
+                                <span class="font-bold text-gray-100 text-sm">Finance Parliament (Press)</span>
+                                <span class="font-black text-red-400 text-base">₹500</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                                <span class="font-bold text-gray-100 text-sm">IPL Mega Auction</span>
+                                <span class="font-black text-red-400 text-base">₹200</span>
                             </div>
                         </div>
                     </div>
@@ -365,12 +369,15 @@
         const UPI_ID = "guptaansh2205@okicici"; 
         
         // --- EmailJS Setup ---
-        // REPLACE THESE with your actual EmailJS strings
         emailjs.init("zTpHdskewyNK12cXg");
         const EMAILJS_SERVICE_ID = 'service_0jnbtbf';
         const EMAILJS_TEMPLATE_ID = 'template_hphrnjr';
 
-        const EVENT_PRICES = { 'finance-parliament': 500, 'ipl-auction': 200 };
+        const EVENT_PRICES = { 
+            'finance-parliament-delegate': 500, 
+            'finance-parliament-press': 500, 
+            'ipl-auction': 200 
+        };
 
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('registration-form');
@@ -395,14 +402,24 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div class="sm:col-span-2">
                                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Select Event Pass</label>
-                                    <div class="grid grid-cols-2 gap-4">
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                         <label class="cursor-pointer relative">
-                                            <input type="radio" name="p_event_${i}" value="finance-parliament" class="radio-card-input sr-only" ${isPrimary ? 'checked' : ''}>
+                                            <input type="radio" name="p_event_${i}" value="finance-parliament-delegate" class="radio-card-input sr-only" ${isPrimary ? 'checked' : ''}>
                                             <div class="radio-card-content p-4 rounded-2xl border-2 border-gray-200 bg-white flex flex-col items-center justify-center text-center h-full relative overflow-hidden">
                                                 <div class="check-icon absolute top-3 right-3 bg-red-600 text-white rounded-full p-0.5 opacity-0 transform scale-50 transition-all duration-200">
                                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
                                                 </div>
-                                                <span class="font-bold text-gray-900">Finance Parliament</span>
+                                                <span class="font-bold text-gray-900 text-sm">Finance Parliament (Delegate)</span>
+                                                <span class="text-xs text-red-600 font-black mt-1">₹500</span>
+                                            </div>
+                                        </label>
+                                        <label class="cursor-pointer relative">
+                                            <input type="radio" name="p_event_${i}" value="finance-parliament-press" class="radio-card-input sr-only">
+                                            <div class="radio-card-content p-4 rounded-2xl border-2 border-gray-200 bg-white flex flex-col items-center justify-center text-center h-full relative overflow-hidden">
+                                                <div class="check-icon absolute top-3 right-3 bg-red-600 text-white rounded-full p-0.5 opacity-0 transform scale-50 transition-all duration-200">
+                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+                                                </div>
+                                                <span class="font-bold text-gray-900 text-sm">Finance Parliament (Press)</span>
                                                 <span class="text-xs text-red-600 font-black mt-1">₹500</span>
                                             </div>
                                         </label>
@@ -412,7 +429,7 @@
                                                 <div class="check-icon absolute top-3 right-3 bg-red-600 text-white rounded-full p-0.5 opacity-0 transform scale-50 transition-all duration-200">
                                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
                                                 </div>
-                                                <span class="font-bold text-gray-900">IPL Auction</span>
+                                                <span class="font-bold text-gray-900 text-sm">IPL Auction</span>
                                                 <span class="text-xs text-red-600 font-black mt-1">₹200</span>
                                             </div>
                                         </label>
@@ -486,19 +503,24 @@
                 const formData = new FormData(form);
                 const members = [];
                 for (let i = 1; i <= parseInt(groupSizeSelect.value); i++) {
+                    const evtValue = formData.get(`p_event_${i}`);
+                    let evtName = 'IPL Auction';
+                    if (evtValue === 'finance-parliament-delegate') evtName = 'Finance Parliament (Delegate)';
+                    else if (evtValue === 'finance-parliament-press') evtName = 'Finance Parliament (Press)';
+
                     members.push({
                         name: formData.get(`p_name_${i}`),
                         email: formData.get(`p_email_${i}`),
                         phone: formData.get(`p_phone_${i}`),
-                        eventName: formData.get(`p_event_${i}`) === 'finance-parliament' ? 'Finance Parliament' : 'IPL Auction',
-                        eventValue: formData.get(`p_event_${i}`)
+                        eventName: evtName,
+                        eventValue: evtValue
                     });
                 }
 
                 const payload = {
                     organization: { 
                         contactPerson: members[0].name, 
-                        contactEmail: members[0].email, // This is the email used for sendEmailReceipt
+                        contactEmail: members[0].email, 
                         contactPhone: members[0].phone 
                     },
                     teams: [{ members }],
@@ -513,8 +535,11 @@
                         body: JSON.stringify(payload)
                     });
 
-                    if (!response.ok) throw new Error('Registration failed on server');
                     const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Registration failed on server');
+                    }
                     
                     showSuccessInvoice(result.savedRegistration, utr);
                     sendEmailReceipt(result.savedRegistration, utr);
@@ -523,7 +548,7 @@
                     form.reset();
                     renderParticipants();
                 } catch (err) {
-                    alert("Error: Verification could not be completed. Check UTR or connection.");
+                    alert("Registration Failed: " + err.message);
                 } finally {
                     btn.disabled = false;
                     btn.innerHTML = "Verify Payment";
@@ -584,7 +609,7 @@
                 
                 const templateParams = {
                     to_name: primaryName,
-                    to_email: primaryEmail, // Ensure your EmailJS template 'To Email' is {{to_email}}
+                    to_email: primaryEmail,
                     payment_id: paymentId,
                     amount_paid: savedRegistration.grandTotal,
                     date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),

@@ -50,29 +50,6 @@
     </header>
 
     <main class="flex-grow container mx-auto max-w-3xl px-4 py-10">
-        
-        <!-- Setup Controls (Day & Mode) -->
-        <div class="bg-white rounded-3xl shadow-xl shadow-red-900/5 border border-gray-100 p-6 mb-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            <!-- Day Switcher -->
-            <div class="flex flex-col space-y-3">
-                <label class="text-xs font-extrabold text-gray-400 uppercase tracking-widest pl-1">Select Event Day</label>
-                <div class="flex bg-gray-50 p-1.5 rounded-xl border border-gray-200 shadow-inner">
-                    <button id="day1-btn" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold shadow-sm bg-white text-red-700 transition-all">Day 1</button>
-                    <button id="day2-btn" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all bg-transparent">Day 2</button>
-                </div>
-            </div>
-
-            <!-- Mode Switcher -->
-            <div class="flex flex-col space-y-3">
-                <label class="text-xs font-extrabold text-gray-400 uppercase tracking-widest pl-1">Select Check-in Mode</label>
-                <div class="flex bg-gray-50 p-1.5 rounded-xl border border-gray-200 shadow-inner">
-                    <button id="mode-event-btn" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold shadow-sm bg-white text-red-600 transition-all">Fest Entry</button>
-                    <button id="mode-lunch-btn" class="flex-1 px-4 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all bg-transparent">Lunch Mode</button>
-                </div>
-            </div>
-
-        </div>
 
         <div class="grid grid-cols-1 gap-8">
             <!-- Scanner Card -->
@@ -80,7 +57,7 @@
                 <div class="bg-gradient-to-r from-red-600 to-red-700 px-8 py-5 flex justify-between items-center transition-all duration-300" id="scanner-header">
                     <h2 class="text-xl font-extrabold text-white flex items-center tracking-tight">
                         <svg class="w-6 h-6 mr-3 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
-                        <span id="scanner-title">Scan Day 1 Fest Pass</span>
+                        <span id="scanner-title">Scan Fest Pass</span>
                     </h2>
                 </div>
                 <div class="p-8">
@@ -148,19 +125,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             const API_BASE_URL = ''; 
             let html5QrcodeScanner = null;
-            let currentMode = 'event'; // 'event' or 'lunch'
-            let currentDay = 'day1';   // 'day1' or 'day2'
             let currentlyScannedCode = null;
 
             // Elements
-            const modeEventBtn = document.getElementById('mode-event-btn');
-            const modeLunchBtn = document.getElementById('mode-lunch-btn');
-            const day1Btn = document.getElementById('day1-btn');
-            const day2Btn = document.getElementById('day2-btn');
-            
-            const scannerHeader = document.getElementById('scanner-header');
-            const scannerTitle = document.getElementById('scanner-title');
-            
             const manualForm = document.getElementById('manual-form');
             const manualInput = document.getElementById('manual-code');
             
@@ -178,44 +145,6 @@
             const markUsedBtn = document.getElementById('mark-used-btn');
             const btnText = document.getElementById('btn-text');
             const closeResultBtn = document.getElementById('close-result-btn');
-
-            // --- UI Switchers ---
-            function updateUI() {
-                // Day UI
-                if (currentDay === 'day1') {
-                    day1Btn.className = 'flex-1 px-4 py-2.5 rounded-lg text-sm font-bold shadow-sm bg-white text-red-700 transition-all';
-                    day2Btn.className = 'flex-1 px-4 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all bg-transparent shadow-none';
-                } else {
-                    day2Btn.className = 'flex-1 px-4 py-2.5 rounded-lg text-sm font-bold shadow-sm bg-white text-red-700 transition-all';
-                    day1Btn.className = 'flex-1 px-4 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all bg-transparent shadow-none';
-                }
-
-                // Mode UI & Headers
-                const dayLabel = currentDay === 'day1' ? 'Day 1' : 'Day 2';
-                if (currentMode === 'event') {
-                    modeEventBtn.className = 'flex-1 px-4 py-2.5 rounded-lg text-sm font-bold shadow-sm bg-white text-red-600 transition-all';
-                    modeLunchBtn.className = 'flex-1 px-4 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all bg-transparent shadow-none';
-                    
-                    scannerHeader.className = 'bg-gradient-to-r from-red-600 to-red-700 px-8 py-5 flex justify-between items-center transition-all duration-300';
-                    scannerTitle.textContent = `Scan ${dayLabel} Fest Pass`;
-                    btnText.textContent = `Grant ${dayLabel} Access`;
-                } else {
-                    modeLunchBtn.className = 'flex-1 px-4 py-2.5 rounded-lg text-sm font-bold shadow-sm bg-white text-orange-600 transition-all';
-                    modeEventBtn.className = 'flex-1 px-4 py-2.5 rounded-lg text-sm font-bold text-gray-500 hover:text-gray-900 transition-all bg-transparent shadow-none';
-                    
-                    scannerHeader.className = 'bg-gradient-to-r from-orange-500 to-amber-500 px-8 py-5 flex justify-between items-center transition-all duration-300';
-                    scannerTitle.textContent = `Scan ${dayLabel} Lunch Coupon`;
-                    btnText.textContent = `Grant ${dayLabel} Lunch`;
-                }
-                hideResult();
-            }
-
-            day1Btn.addEventListener('click', () => { currentDay = 'day1'; updateUI(); });
-            day2Btn.addEventListener('click', () => { currentDay = 'day2'; updateUI(); });
-            modeEventBtn.addEventListener('click', () => { currentMode = 'event'; updateUI(); });
-            modeLunchBtn.addEventListener('click', () => { currentMode = 'lunch'; updateUI(); });
-
-            updateUI();
 
             // --- Scanner Setup ---
             function onScanSuccess(decodedText, decodedResult) {
@@ -244,7 +173,7 @@
                     const response = await fetch(`${API_BASE_URL}/verify-ticket`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ entryCode: code, mode: currentMode, day: currentDay }) 
+                        body: JSON.stringify({ entryCode: code }) 
                     });
                     
                     const data = await response.json();
@@ -327,7 +256,7 @@
                     const response = await fetch(`${API_BASE_URL}/mark-ticket-used`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ entryCode: currentlyScannedCode, mode: currentMode, day: currentDay })
+                        body: JSON.stringify({ entryCode: currentlyScannedCode })
                     });
                     
                     const data = await response.json();
@@ -335,7 +264,7 @@
                     if (data.status === 'USED_SUCCESS') {
                         resultHeader.className = 'px-8 py-5 flex items-center justify-between shadow-sm relative z-10 transition-all bg-gradient-to-r from-blue-600 to-indigo-600';
                         resultStatusTitle.textContent = 'SUCCESSFULLY LOGGED';
-                        resMessage.textContent = `${currentDay === 'day1' ? 'Day 1' : 'Day 2'} ${currentMode === 'event' ? 'Access' : 'Lunch'} granted!`;
+                        resMessage.textContent = `Access granted!`;
                         actionContainer.classList.add('hidden');
                         
                         setTimeout(hideResult, 2000);
