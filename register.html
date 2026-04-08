@@ -138,7 +138,7 @@
         </div>
     </header>
 
-    <main class="container mx-auto max-w-6xl px-4 py-12 pb-32 lg:pb-16 print-hide">
+    <main class="container mx-auto max-w-6xl px-4 py-12 pb-32 lg:pb-16 print-hide" id="main-content">
         
         <!-- Hero Section -->
         <div class="text-center mb-14 animate-slide-up" style="animation-delay: 0.1s; opacity: 0;">
@@ -152,89 +152,101 @@
             </p>
         </div>
 
-        <!-- Group Size Setup Card -->
-        <div class="mb-8 animate-slide-up" style="animation-delay: 0.2s; opacity: 0;">
-            <div class="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-3xl shadow-xl shadow-red-900/5 border border-gray-100/50">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <div class="w-full md:w-1/2">
-                        <h2 class="text-lg font-extrabold text-gray-900 mb-4 flex items-center">
-                            <span class="bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs mr-3 shadow-md shadow-red-600/30">1</span>
-                            Select Participants
-                        </h2>
-                        <div class="relative group">
-                            <select id="group-size" class="appearance-none block w-full rounded-2xl border-2 border-gray-200 font-bold text-lg p-5 bg-gray-50/50 text-gray-800 pr-10 cursor-pointer transition-all hover:bg-white hover:border-gray-300 outline-none">
-                                <option value="1">1 Participant (Finance Parliament)</option>
-                                <option value="5">5 Participants (IPL Auction)</option>
-                            </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-400 group-hover:text-red-500 transition-colors">
-                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M19 9l-7 7-7-7"></path></svg>
+        <div id="registration-wrapper">
+            <!-- Group Size Setup Card -->
+            <div class="mb-8 animate-slide-up" style="animation-delay: 0.2s; opacity: 0;">
+                <div class="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-3xl shadow-xl shadow-red-900/5 border border-gray-100/50">
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="w-full md:w-1/2">
+                            <h2 class="text-lg font-extrabold text-gray-900 mb-4 flex items-center">
+                                <span class="bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs mr-3 shadow-md shadow-red-600/30">1</span>
+                                Select Participants
+                            </h2>
+                            <div class="relative group">
+                                <select id="group-size" class="appearance-none block w-full rounded-2xl border-2 border-gray-200 font-bold text-lg p-5 bg-gray-50/50 text-gray-800 pr-10 cursor-pointer transition-all hover:bg-white hover:border-gray-300 outline-none">
+                                    <option value="1">1 Participant (Finance Parliament)</option>
+                                    <option value="5">5 Participants (IPL Auction)</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-400 group-hover:text-red-500 transition-colors">
+                                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
                             </div>
+                            <p class="text-sm text-gray-500 font-medium mt-3 ml-1">Register multiple attendees in a single payment flow.</p>
                         </div>
-                        <p class="text-sm text-gray-500 font-medium mt-3 ml-1">Register multiple attendees in a single payment flow.</p>
-                    </div>
-                    <!-- Pricing Guide Restore -->
-                    <div class="w-full md:w-1/2 bg-gray-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
-                        <div class="absolute -right-6 -top-6 w-32 h-32 bg-red-600 opacity-20 rounded-full blur-2xl"></div>
-                        <h3 class="text-sm font-bold uppercase tracking-widest text-gray-400 mb-4">Pass Pricing</h3>
-                        <div class="space-y-3 relative z-10">
-                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
-                                <span class="font-bold text-gray-100 text-sm">Finance Parliament (Delegate)</span>
-                                <span class="font-black text-red-400 text-base">₹200</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
-                                <span class="font-bold text-gray-100 text-sm">Finance Parliament (Press)</span>
-                                <span class="font-black text-red-400 text-base">₹200</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
-                                <span class="font-bold text-gray-100 text-sm">IPL Mega Auction</span>
-                                <span class="font-black text-red-400 text-base">₹80</span>
+                        <!-- Pricing Guide Restore -->
+                        <div class="w-full md:w-1/2 bg-gray-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+                            <div class="absolute -right-6 -top-6 w-32 h-32 bg-red-600 opacity-20 rounded-full blur-2xl"></div>
+                            <h3 class="text-sm font-bold uppercase tracking-widest text-gray-400 mb-4">Pass Pricing</h3>
+                            <div class="space-y-3 relative z-10">
+                                <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                                    <span class="font-bold text-gray-100 text-sm">Finance Parliament (Delegate)</span>
+                                    <span class="font-black text-red-400 text-base">₹200</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                                    <span class="font-bold text-gray-100 text-sm">Finance Parliament (Press)</span>
+                                    <span class="font-black text-red-400 text-base">₹200</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white/5 p-3 rounded-xl border border-white/10 hover:bg-white/10 transition-colors">
+                                    <span class="font-bold text-gray-100 text-sm">IPL Mega Auction</span>
+                                    <span class="font-black text-red-400 text-base">₹80</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="flex flex-col lg:flex-row lg:space-x-8">
-            <!-- Left: Dynamic Forms -->
-            <form id="registration-form" class="flex-[2] space-y-6">
-                <div class="flex items-center mb-6 pl-2">
-                    <span class="bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mr-3 shadow-md shadow-red-600/30">2</span>
-                    <h2 class="text-xl font-extrabold text-gray-900">Participant Details</h2>
-                </div>
-                <div id="dynamic-participants-container" class="space-y-6"></div>
-
-                <!-- Submit Button Bar -->
-                <div class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 z-50 lg:static lg:bg-transparent lg:border-none lg:p-0 lg:pt-8 animate-slide-up" style="animation-delay: 0.5s; opacity: 0;">
-                    <button type="submit" id="submit-btn" class="w-full max-w-md mx-auto lg:max-w-none group flex justify-center items-center py-5 px-6 rounded-2xl shadow-xl shadow-red-600/20 text-lg font-black text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 transition-all transform hover:-translate-y-1 active:translate-y-0 border border-red-500 relative overflow-hidden">
-                        <div class="absolute inset-0 w-full h-full bg-white/20 translate-x-[-100%] skew-x-[-15deg] group-hover:animate-[shimmer_1.5s_infinite]"></div>
-                        <span class="button-text z-10">Proceed to Checkout</span>
-                    </button>
-                    <p class="text-center text-[10px] sm:text-xs text-gray-500 mt-2 lg:mt-4 font-bold flex justify-center items-center">
-                        <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" /></svg>
-                        Secure Bank Transfer & Cash Modes Available
-                    </p>
-                </div>
-            </form>
-
-            <!-- Right: Order Summary Sidebar -->
-            <div class="w-full lg:flex-[1] mt-10 lg:mt-0 animate-slide-up" style="animation-delay: 0.4s; opacity: 0;">
-                <div class="lg:sticky lg:top-28 bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-gray-100/50">
-                    <h2 class="text-2xl font-extrabold text-gray-900 mb-8 border-b border-gray-100 pb-4">Order Summary</h2>
-                    <div class="space-y-4 mb-8">
-                        <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <span class="font-bold text-gray-600">Attendees</span>
-                            <span class="font-black text-gray-900 text-lg bg-white px-3 py-1 rounded-lg shadow-sm border" id="summary-attendee-count">1</span>
-                        </div>
+            <div class="flex flex-col lg:flex-row lg:space-x-8">
+                <!-- Left: Dynamic Forms -->
+                <form id="registration-form" class="flex-[2] space-y-6">
+                    <div class="flex items-center mb-6 pl-2">
+                        <span class="bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mr-3 shadow-md shadow-red-600/30">2</span>
+                        <h2 class="text-xl font-extrabold text-gray-900">Participant Details</h2>
                     </div>
-                    <div class="p-6 rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 shadow-xl relative overflow-hidden">
-                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-white opacity-5 rounded-full blur-2xl"></div>
-                        <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Grand Total</label>
-                        <div id="grand-total-price" class="text-4xl sm:text-5xl font-black tracking-tight text-white transition-all transform origin-left">₹0</div>
+                    <div id="dynamic-participants-container" class="space-y-6"></div>
+
+                    <!-- Submit Button Bar -->
+                    <div class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 z-50 lg:static lg:bg-transparent lg:border-none lg:p-0 lg:pt-8 animate-slide-up" style="animation-delay: 0.5s; opacity: 0;">
+                        <button type="submit" id="submit-btn" class="w-full max-w-md mx-auto lg:max-w-none group flex justify-center items-center py-5 px-6 rounded-2xl shadow-xl shadow-red-600/20 text-lg font-black text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 transition-all transform hover:-translate-y-1 active:translate-y-0 border border-red-500 relative overflow-hidden">
+                            <div class="absolute inset-0 w-full h-full bg-white/20 translate-x-[-100%] skew-x-[-15deg] group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                            <span class="button-text z-10">Proceed to Checkout</span>
+                        </button>
+                        <p class="text-center text-[10px] sm:text-xs text-gray-500 mt-2 lg:mt-4 font-bold flex justify-center items-center">
+                            <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" /></svg>
+                            Secure Bank Transfer
+                        </p>
+                    </div>
+                </form>
+
+                <!-- Right: Order Summary Sidebar -->
+                <div class="w-full lg:flex-[1] mt-10 lg:mt-0 animate-slide-up" style="animation-delay: 0.4s; opacity: 0;">
+                    <div class="lg:sticky lg:top-28 bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-gray-100/50">
+                        <h2 class="text-2xl font-extrabold text-gray-900 mb-8 border-b border-gray-100 pb-4">Order Summary</h2>
+                        <div class="space-y-4 mb-8">
+                            <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                <span class="font-bold text-gray-600">Attendees</span>
+                                <span class="font-black text-gray-900 text-lg bg-white px-3 py-1 rounded-lg shadow-sm border" id="summary-attendee-count">1</span>
+                            </div>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 shadow-xl relative overflow-hidden">
+                            <div class="absolute -right-10 -top-10 w-32 h-32 bg-white opacity-5 rounded-full blur-2xl"></div>
+                            <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Grand Total</label>
+                            <div id="grand-total-price" class="text-4xl sm:text-5xl font-black tracking-tight text-white transition-all transform origin-left">₹0</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Registrations Closed Message (Hidden by default) -->
+        <div id="closed-message" class="hidden text-center py-20">
+            <div class="inline-flex justify-center items-center w-24 h-24 rounded-full bg-red-100 mb-6 border-4 border-white shadow-xl">
+                <svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            </div>
+            <h2 class="text-4xl font-black text-gray-900 mb-4 tracking-tight">Registrations are Closed</h2>
+            <p class="text-gray-500 max-w-lg mx-auto font-medium text-lg">We are currently not accepting any new registrations for the SAMAKSH events. Please check back later or contact the organizing committee for details.</p>
+        </div>
+
     </main>
 
     <!-- Footer Guidelines -->
@@ -246,7 +258,7 @@
             </div>
             <div>
                 <h4 class="text-white font-bold text-lg mb-4">Payment Methods</h4>
-                <p class="text-sm leading-relaxed text-gray-500 mb-4">We accept direct bank transfers to the official organizing committee account. You may also opt to pay in cash by connecting directly with our Event Coordinator.</p>
+                <p class="text-sm leading-relaxed text-gray-500 mb-4">We accept direct bank transfers to the official organizing committee account. If you encounter any issues during your payment, please connect directly with our Event Coordinator.</p>
             </div>
             <div>
                 <h4 class="text-white font-bold text-lg mb-4">Guidelines</h4>
@@ -258,28 +270,21 @@
             </div>
         </div>
         <div class="container mx-auto max-w-6xl px-4 mt-12 pt-8 border-t border-gray-800 text-[10px] text-center text-gray-600 font-bold uppercase tracking-widest">
-            &copy; 2026 Ansh Gupta - All rights reserved.
+            &copy; 2026 School of BFSI - SAMAKSH Organizing Committee.
         </div>
     </footer>
 
-    <!-- Payment Modals -->
-    <!-- Notice the max-h-[95vh] and overflow-y-auto added to the inner content card for smooth mobile scaling -->
+    <!-- Payment Modal -->
     <div id="payment-modal" class="fixed inset-0 z-[150] flex items-center justify-center p-4 hidden bg-gray-900/80 backdrop-blur-sm print-hide">
         <div id="payment-modal-content" class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-6 sm:p-8 text-center border border-gray-200 transform transition-all duration-300 opacity-0 scale-95 translate-y-4 max-h-[95vh] overflow-y-auto no-scrollbar flex flex-col relative">
             
             <h3 class="text-2xl font-black text-gray-900 mb-1 shrink-0">Complete Payment</h3>
             <p class="text-sm text-gray-500 mb-6 font-semibold shrink-0">Total Amount: <span id="payment-amount-display" class="text-red-600 font-black ml-1 text-lg">₹0</span></p>
 
-            <!-- Payment Method Tabs -->
-            <div class="flex space-x-2 bg-gray-100 p-1.5 rounded-xl mb-6 relative shrink-0">
-                <button type="button" id="tab-btn-bank" class="flex-1 bg-white shadow-sm rounded-lg py-2.5 text-sm font-bold text-gray-900 transition-all border border-gray-200 z-10">Bank Transfer</button>
-                <button type="button" id="tab-btn-cash" class="flex-1 rounded-lg py-2.5 text-sm font-bold text-gray-500 hover:text-gray-900 transition-all z-10">Pay in Cash</button>
-            </div>
-
             <form id="payment-form" class="space-y-5 flex flex-col flex-grow">
                 
-                <!-- View: Bank Transfer -->
-                <div id="view-bank" class="block space-y-5 flex-grow">
+                <div class="block space-y-5 flex-grow">
+                    <!-- Bank Details -->
                     <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 text-left space-y-3 shadow-inner">
                         <div class="flex justify-between items-center border-b border-gray-200 pb-3">
                             <span class="text-gray-500 text-[10px] font-bold uppercase tracking-widest">Bank Name</span>
@@ -299,6 +304,7 @@
                         </div>
                     </div>
                     
+                    <!-- UPI Instructions -->
                     <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-left">
                         <h4 class="text-xs font-black text-blue-800 uppercase tracking-widest mb-2 flex items-center">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -311,47 +317,39 @@
                             <li>Pay the total amount and enter the <strong>12-digit UTR number</strong> below.</li>
                         </ol>
                     </div>
-                    <div class="bg-red-50 border border-red-200 rounded-xl p-4 text-left">
-                        <h4 class="text-xs font-black text-red-800 uppercase tracking-widest mb-2 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            IMPORTANT NOTE
-                        </h4>
-                        <p class="text-xs font-black text-red-800  tracking-widest mb-2 flex items-center">
-                            Please be advised that submitting a fake or invalid UTR number will lead to the immediate cancellation of your registration and a ban from all future SAMAKSH events. If you have made an error during your submission, please contact our Event Coordinator at your earliest convenience to resolve the issue and avoid any inconvenience.
-                        </p>
-                    </div>
+                    
+                    <!-- UTR Input -->
                     <div class="text-left">
                         <label class="block text-xs font-bold text-gray-600 mb-2 ml-1">Transaction Reference No. (UTR)</label>
                         <input type="text" id="ref-input" placeholder="e.g. 312345678901" required class="block w-full rounded-2xl border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 border p-4 text-center font-bold tracking-widest outline-none bg-gray-50 placeholder:tracking-normal placeholder:font-normal">
                     </div>
-                </div>
+                    
+                    <!-- Formatted Professional Warning -->
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl text-left shadow-sm">
+                        <div class="flex">
+                            <div class="flex-shrink-0 mt-0.5">
+                                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-[10px] font-black text-red-800 uppercase tracking-widest mb-1">Important Notice</h3>
+                                <div class="text-[11px] text-red-700 font-medium leading-relaxed">
+                                    Please be advised that submitting a fake or invalid UTR number will lead to the immediate cancellation of your registration and a ban from all future SAMAKSH events.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- View: Cash -->
-                <div id="view-cash" class="hidden flex-grow flex flex-col justify-center">
-                    <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-6 text-left">
-                        <div class="flex items-start mb-3">
-                            <div class="flex-shrink-0 bg-yellow-100 p-2 rounded-full mt-0.5">
-                                <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                            </div>
-                            <h4 class="ml-3 text-sm font-black text-yellow-800">Important Note</h4>
-                        </div>
-                        
-                        <div class="text-yellow-800 text-sm font-medium leading-relaxed pl-10">
-                            <p>By choosing this option, your registration details will be saved but marked as <span class="bg-yellow-200 px-1.5 py-0.5 rounded text-xs font-black text-yellow-900">UNPAID</span>.</p>
-                            <p class="mt-3"> Since the events are based on first come , first serve basis please note that Your entry passes will only be activated after the cash payment is collected and verified.</p>
-                            
-                            <!-- Highlighted Coordinator Box -->
-                            <div class="mt-5 p-5 bg-white rounded-xl border-2 border-yellow-300 text-center shadow-sm">
-                                <p class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Connect with Coordinator</p>
-                                <p class="text-xl font-black text-gray-900">Riddhima Singh</p>
-                                <a href="tel:+919876543210" class="inline-flex items-center justify-center mt-3 bg-yellow-100 text-yellow-800 px-5 py-2.5 rounded-xl font-bold text-base hover:bg-yellow-200 hover:scale-105 transition-all shadow-sm">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                    +91 9981069799
-                                </a>
-                            </div>
-                        </div>
+                    <!-- Highlighted Coordinator Box -->
+                    <div class="mt-4 p-4 bg-white rounded-xl border border-yellow-300 text-center shadow-sm relative overflow-hidden">
+                        <div class="absolute -right-4 -top-4 w-16 h-16 bg-yellow-100 rounded-full blur-xl"></div>
+                        <p class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1 relative z-10">Facing payment issues?</p>
+                        <p class="text-sm font-black text-gray-900 relative z-10">Connect with Coordinator: <span class="text-yellow-600">Riddhima Singh</span></p>
+                        <a href="tel:+919876543210" class="inline-flex items-center justify-center mt-2 bg-gray-50 border border-gray-200 text-gray-800 px-4 py-2 rounded-lg font-bold text-xs hover:bg-gray-100 hover:shadow-sm transition-all relative z-10">
+                            <svg class="w-3 h-3 mr-2 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            +91 99810 69799
+                        </a>
                     </div>
                 </div>
 
@@ -430,18 +428,27 @@
             const groupSizeSelect = document.getElementById('group-size');
             const participantsContainer = document.getElementById('dynamic-participants-container');
             const totalDisplay = document.getElementById('grand-total-price');
+            const registrationWrapper = document.getElementById('registration-wrapper');
+            const closedMessage = document.getElementById('closed-message');
             
             // Modal Elements
             const paymentModal = document.getElementById('payment-modal');
             const paymentModalContent = document.getElementById('payment-modal-content');
             const paymentForm = document.getElementById('payment-form');
-            const tabBtnBank = document.getElementById('tab-btn-bank');
-            const tabBtnCash = document.getElementById('tab-btn-cash');
-            const viewBank = document.getElementById('view-bank');
-            const viewCash = document.getElementById('view-cash');
             const refInput = document.getElementById('ref-input');
-            
-            let currentPaymentMethod = 'bank'; // 'bank' or 'cash'
+
+            async function checkRegistrationStatus() {
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/status`);
+                    const data = await res.json();
+                    if (data.registrationOpen === false) {
+                        registrationWrapper.style.display = 'none';
+                        closedMessage.classList.remove('hidden');
+                    }
+                } catch (e) {
+                    console.error('Could not fetch registration status', e);
+                }
+            }
 
             function renderParticipants() {
                 const count = parseInt(groupSizeSelect.value);
@@ -523,27 +530,6 @@
                 document.getElementById('form-progress-bar').style.width = `${progress}%`;
             }
 
-            // Tab Switching Logic
-            function setPaymentTab(method) {
-                currentPaymentMethod = method;
-                if (method === 'bank') {
-                    tabBtnBank.className = 'flex-1 bg-white shadow-sm rounded-lg py-2.5 text-sm font-bold text-gray-900 transition-all border border-gray-200 z-10';
-                    tabBtnCash.className = 'flex-1 rounded-lg py-2.5 text-sm font-bold text-gray-500 hover:text-gray-900 transition-all z-10';
-                    viewBank.classList.remove('hidden');
-                    viewCash.classList.add('hidden');
-                    refInput.required = true;
-                } else {
-                    tabBtnCash.className = 'flex-1 bg-white shadow-sm rounded-lg py-2.5 text-sm font-bold text-gray-900 transition-all border border-gray-200 z-10';
-                    tabBtnBank.className = 'flex-1 rounded-lg py-2.5 text-sm font-bold text-gray-500 hover:text-gray-900 transition-all z-10';
-                    viewCash.classList.remove('hidden');
-                    viewBank.classList.add('hidden');
-                    refInput.required = false;
-                }
-            }
-
-            tabBtnBank.addEventListener('click', () => setPaymentTab('bank'));
-            tabBtnCash.addEventListener('click', () => setPaymentTab('cash'));
-
             groupSizeSelect.addEventListener('change', renderParticipants);
             form.addEventListener('input', updateSummary);
             
@@ -570,12 +556,7 @@
             paymentForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                let referenceString = '';
-                if (currentPaymentMethod === 'bank') {
-                    referenceString = refInput.value.trim();
-                } else {
-                    referenceString = 'CASH_PAYMENT_PENDING';
-                }
+                const referenceString = refInput.value.trim();
 
                 const btn = document.getElementById('modal-submit-btn');
                 const btnTextEl = btn.querySelector('.btn-text');
@@ -630,7 +611,6 @@
                     paymentModal.classList.add('hidden');
                     form.reset();
                     paymentForm.reset();
-                    setPaymentTab('bank'); // Reset modal state
                     renderParticipants();
                 } catch (err) {
                     alert("Registration Failed: " + err.message);
@@ -645,26 +625,19 @@
                 document.getElementById('bill-name').textContent = reg.organization.contactPerson;
                 document.getElementById('bill-email').textContent = reg.organization.contactEmail;
                 
-                const isCash = utr === 'CASH_PAYMENT_PENDING';
-                
-                document.getElementById('bill-payment-id').textContent = isCash ? 'CONTACT_ADMIN' : utr;
+                document.getElementById('bill-payment-id').textContent = utr;
                 document.getElementById('bill-total').textContent = `₹${reg.grandTotal.toLocaleString('en-IN')}`;
 
                 const statusBadge = document.getElementById('bill-status-badge');
-                if (isCash) {
-                    statusBadge.textContent = 'UNPAID - CASH PENDING';
-                    statusBadge.className = 'text-red-700 bg-red-50 px-2 py-0.5 rounded border border-red-200 font-black';
-                } else {
-                    statusBadge.textContent = 'AWAITING BANK VERIFICATION';
-                    statusBadge.className = 'text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100';
-                }
+                statusBadge.textContent = 'AWAITING BANK VERIFICATION';
+                statusBadge.className = 'text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100';
 
                 const container = document.getElementById('bill-participants-container');
                 container.innerHTML = '';
                 reg.teams[0].members.forEach(m => {
                     container.insertAdjacentHTML('beforeend', `
                         <div class="w-64 bg-gray-50 p-6 rounded-3xl border border-gray-200 text-center relative overflow-hidden shadow-sm">
-                            <div class="h-1.5 ${isCash ? 'bg-yellow-500' : 'bg-red-600'} absolute top-0 left-0 w-full"></div>
+                            <div class="h-1.5 bg-red-600 absolute top-0 left-0 w-full"></div>
                             <h4 class="font-black text-lg text-gray-900">${m.name}</h4>
                             <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">${m.eventName}</p>
                             <div class="bg-white p-2 border border-gray-200 rounded-xl mb-4 inline-block">
@@ -683,7 +656,6 @@
 
                 const primaryEmail = savedRegistration.organization.contactEmail;
                 const primaryName = savedRegistration.organization.contactPerson;
-                const isCash = paymentId === 'CASH_PAYMENT_PENDING';
                 
                 const members = savedRegistration.teams[0].members;
                 const QR_API_BASE = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=';
@@ -705,17 +677,13 @@
                     `;
                 });
 
-                let customMessage = isCash 
-                    ? `<div style="background-color: #fefce8; border: 1px solid #fef08a; color: #854d0e; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold;">⚠️ IMPORTANT: You opted to pay in cash. Your passes are inactive. Please connect with the Event Coordinator: Ansh Gupta (+91 9876543210) to pay ₹${savedRegistration.grandTotal} and activate your tickets.</div>`
-                    : '';
-                
                 const templateParams = {
                     to_name: primaryName,
                     to_email: primaryEmail,
-                    payment_id: isCash ? 'CONTACT_ADMIN' : paymentId,
+                    payment_id: paymentId,
                     amount_paid: savedRegistration.grandTotal,
                     date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
-                    participants_html: customMessage + participantsHtml 
+                    participants_html: participantsHtml 
                 };
 
                 emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
@@ -730,6 +698,7 @@
             // Initial render and preloader removal
             window.addEventListener('load', () => {
                 renderParticipants();
+                checkRegistrationStatus();
                 setTimeout(() => {
                     document.getElementById('preloader').classList.add('opacity-0');
                     setTimeout(() => document.getElementById('preloader').style.display = 'none', 700);
