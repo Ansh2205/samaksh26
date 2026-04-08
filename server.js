@@ -17,9 +17,9 @@ app.use(cors());
 
 // --- EVENT PRICING & LIMITS CONFIGURATION ---
 const PRICES = {
-    'finance-parliament-delegate': 500, 
-    'finance-parliament-press': 500,
-    'ipl-auction': 200         
+    'finance-parliament-delegate': 200, 
+    'finance-parliament-press': 200,
+    'ipl-auction': 80         
 };
 
 const EVENT_LIMITS = {
@@ -39,8 +39,8 @@ const basicAuth = (req, res, next) => {
     if (req.method === 'OPTIONS') return next();
     const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
-    const validUser = process.env.ADMIN_USER || 'admin';
-    const validPass = process.env.ADMIN_PASS || 'symbi2025';
+    const validUser = process.env.ADMIN_USER ;
+    const validPass = process.env.ADMIN_PASS ;
 
     if (login && password && login === validUser && password === validPass) {
         return next();
@@ -64,27 +64,29 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname)));
 
 // --- 3. DATABASE CONNECTION ---
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://admin-july:Ansh2204@m0.nwuak9s.mongodb.net/?appName=M0" ;
+const MONGO_URI = process.env.MONGO_URI ;
 
 mongoose.connect(MONGO_URI)
     .then(async () => {
         console.log('✅ Connected to MongoDB');
-        const collection = mongoose.connection.db.collection('registrations');
         
-        // List of old problematic indexes to drop
-        const indexesToDrop = ['groupCode_1', 'entryCode_1'];
-        
-        for (const idx of indexesToDrop) {
-            try {
-                await collection.dropIndex(idx);
-                console.log(`🧹 Dropped legacy index: ${idx}`);
-            } catch (e) {
-                // If index doesn't exist, ignore error
-            }
+        // Initialize Global Settings (For Registration Toggle)
+        const Settings = mongoose.model('Settings');
+        const regStatus = await Settings.findOne({ key: 'registration_open' });
+        if (!regStatus) {
+            await new Settings({ key: 'registration_open', value: true }).save();
+            console.log('⚙️ Initialized default settings: Registrations OPEN');
         }
+
     }).catch(err => console.error('❌ DB Error:', err));
 
 // --- 4. SCHEMAS ---
+const SettingsSchema = new mongoose.Schema({
+    key: { type: String, unique: true },
+    value: mongoose.Schema.Types.Mixed
+});
+const Settings = mongoose.model('Settings', SettingsSchema);
+
 const MemberSchema = new mongoose.Schema({
     name: String, email: String, phone: String, eventName: String, eventValue: String,
     entryCode: { type: String, required: true },
@@ -148,6 +150,32 @@ async function checkCapacity(requestedCounts) {
 
 // --- 5. ENDPOINTS ---
 
+// Public Status Endpoint
+app.get('/api/status', async (req, res) => {
+    try {
+        const setting = await Settings.findOne({ key: 'registration_open' });
+        res.json({ registrationOpen: setting ? setting.value : false });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch status' });
+    }
+});
+
+// Admin Toggle Endpoint
+app.post('/admin/toggle-status', basicAuth, async (req, res) => {
+    try {
+        const setting = await Settings.findOne({ key: 'registration_open' });
+        if (setting) {
+            setting.value = !setting.value;
+            await setting.save();
+            res.json({ status: 'success', registrationOpen: setting.value });
+        } else {
+            res.status(404).json({ error: 'Setting not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to toggle status' });
+    }
+});
+
 app.post('/admin/toggle-payment', basicAuth, async (req, res) => {
     const { registrationId } = req.body;
     try {
@@ -176,6 +204,12 @@ app.post('/admin/delete-registration', basicAuth, async (req, res) => {
 });
 
 app.post('/submit-registration', async (req, res) => {
+    // 1. Check if registrations are globally open
+    const status = await Settings.findOne({ key: 'registration_open' });
+    if (status && status.value === false) {
+        return res.status(403).json({ error: 'Registrations are currently closed.' });
+    }
+
     const data = req.body;
     const utr = data.utr || 'UPI_MANUAL';
     const escapeRegex = (string) => string ? string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : '';
@@ -197,7 +231,7 @@ app.post('/submit-registration', async (req, res) => {
         console.error("Duplicate check error:", err);
     }
 
-    // Capacity Check
+    // 2. Capacity Check
     const requestedCounts = {};
     if (data.teams && data.teams[0]?.members) {
         data.teams[0].members.forEach(m => {
