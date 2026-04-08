@@ -54,8 +54,21 @@
 
     <div class="container mx-auto max-w-[90rem] px-4 py-8 sm:py-12">
         
-        <!-- Export Controls -->
-        <div class="bg-white rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100 p-5 mb-8 flex flex-col md:flex-row justify-end items-center space-y-4 md:space-y-0">
+        <!-- Controls Bar -->
+        <div class="bg-white rounded-2xl shadow-xl shadow-red-900/5 border border-gray-100 p-5 mb-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <!-- Registration Status Toggle -->
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl">
+                    <span class="text-sm font-bold text-gray-700 mr-3">Registration Status:</span>
+                    <button id="toggle-reg-btn" class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 bg-gray-300">
+                        <span class="sr-only">Toggle registrations</span>
+                        <span id="toggle-reg-indicator" class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-1 shadow-sm"></span>
+                    </button>
+                    <span id="reg-status-text" class="ml-3 text-xs font-black uppercase tracking-widest text-gray-500">Checking...</span>
+                </div>
+            </div>
+
+            <!-- Export / Add Controls -->
             <div class="flex space-x-3">
                 <button id="export-csv-btn" class="flex items-center px-5 py-2.5 border border-gray-200 rounded-xl shadow-sm text-sm font-bold text-gray-700 bg-white hover:bg-gray-50 transition-colors">
                     <svg class="h-5 w-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -228,12 +241,58 @@
             const totalUsedEl = document.getElementById('total-used');
             const totalRevenueEl = document.getElementById('total-revenue');
             
-            // New Counters
             const countFpDelegateEl = document.getElementById('count-fp-delegate');
             const countFpPressEl = document.getElementById('count-fp-press');
             const countIplEl = document.getElementById('count-ipl');
             
             const exportCsvBtn = document.getElementById('export-csv-btn');
+            
+            // Toggle Settings Logic
+            const toggleRegBtn = document.getElementById('toggle-reg-btn');
+            const toggleRegIndicator = document.getElementById('toggle-reg-indicator');
+            const regStatusText = document.getElementById('reg-status-text');
+
+            async function checkRegistrationStatus() {
+                try {
+                    const res = await fetch(`${API_BASE_URL}/api/status`);
+                    const data = await res.json();
+                    updateToggleUI(data.registrationOpen);
+                } catch (e) {
+                    regStatusText.textContent = 'Error Fetching';
+                    regStatusText.classList.add('text-red-500');
+                }
+            }
+
+            function updateToggleUI(isOpen) {
+                if (isOpen) {
+                    toggleRegBtn.classList.replace('bg-gray-300', 'bg-green-500');
+                    toggleRegIndicator.classList.replace('translate-x-1', 'translate-x-6');
+                    regStatusText.textContent = 'OPEN';
+                    regStatusText.className = 'ml-3 text-xs font-black uppercase tracking-widest text-green-600';
+                } else {
+                    toggleRegBtn.classList.replace('bg-green-500', 'bg-gray-300');
+                    toggleRegIndicator.classList.replace('translate-x-6', 'translate-x-1');
+                    regStatusText.textContent = 'CLOSED';
+                    regStatusText.className = 'ml-3 text-xs font-black uppercase tracking-widest text-red-500';
+                }
+            }
+
+            toggleRegBtn.addEventListener('click', async () => {
+                toggleRegBtn.disabled = true;
+                try {
+                    const res = await fetch(`${API_BASE_URL}/admin/toggle-status`, { method: 'POST' });
+                    const data = await res.json();
+                    if (data.status === 'success') {
+                        updateToggleUI(data.registrationOpen);
+                    } else {
+                        alert('Error toggling status');
+                    }
+                } catch (e) {
+                    alert('Network error while toggling settings');
+                } finally {
+                    toggleRegBtn.disabled = false;
+                }
+            });
 
             function processRegistrations(data) {
                 allRegistrations = data;
@@ -594,6 +653,8 @@
                 }
             }
 
+            // Start fetching everything
+            checkRegistrationStatus();
             document.getElementById('refresh-btn').addEventListener('click', fetchRegistrations);
             fetchRegistrations();
         });
