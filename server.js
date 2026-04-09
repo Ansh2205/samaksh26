@@ -25,7 +25,7 @@ const PRICES = {
 const EVENT_LIMITS = {
     'finance-parliament-delegate': 45,
     'finance-parliament-press': 5,
-    'ipl-auction': 50
+    'ipl-auction': 65
 };
 
 const EVENT_NAMES = {
