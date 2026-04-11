@@ -39,8 +39,8 @@ const basicAuth = (req, res, next) => {
     if (req.method === 'OPTIONS') return next();
     const b64auth = (req.headers.authorization || '').split(' ')[1] || '';
     const [login, password] = Buffer.from(b64auth, 'base64').toString().split(':');
-    const validUser = process.env.ADMIN_USER ;
-    const validPass = process.env.ADMIN_PASS ;
+    const validUser = process.env.ADMIN_USER || 'admin';
+    const validPass = process.env.ADMIN_PASS || 'symbi2025';
 
     if (login && password && login === validUser && password === validPass) {
         return next();
@@ -89,6 +89,7 @@ const Settings = mongoose.model('Settings', SettingsSchema);
 
 const MemberSchema = new mongoose.Schema({
     name: String, email: String, phone: String, eventName: String, eventValue: String,
+    preference: { type: String, default: '' },
     entryCode: { type: String, required: true },
     day1EntryStatus: { type: String, default: 'UNUSED' }, day1EntryAt: Date,
     day2EntryStatus: { type: String, default: 'UNUSED' }, day2EntryAt: Date,
