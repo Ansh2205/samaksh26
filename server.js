@@ -25,7 +25,7 @@ const PRICES = {
 const EVENT_LIMITS = {
     'finance-parliament-delegate': 45,
     'finance-parliament-press': 5,
-    'ipl-auction': 65
+    'ipl-auction': 50
 };
 
 const EVENT_NAMES = {
@@ -64,7 +64,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname)));
 
 // --- 3. DATABASE CONNECTION ---
-const MONGO_URI = process.env.MONGO_URI ;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://admin-july:Ansh2204@m0.nwuak9s.mongodb.net/?appName=M0' ;
 
 mongoose.connect(MONGO_URI)
     .then(async () => {

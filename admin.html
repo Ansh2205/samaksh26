@@ -70,9 +70,13 @@
 
             <!-- Export / Add Controls -->
             <div class="flex space-x-3">
-                <button id="export-csv-btn" class="flex items-center px-5 py-2.5 border border-gray-200 rounded-xl shadow-sm text-sm font-bold text-gray-700 bg-white hover:bg-gray-50 transition-colors">
-                    <svg class="h-5 w-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    Export (CSV)
+                <button id="export-fp-btn" class="flex items-center px-4 py-2.5 border border-blue-200 rounded-xl shadow-sm text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-colors">
+                    <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Export FP
+                </button>
+                <button id="export-ipl-btn" class="flex items-center px-4 py-2.5 border border-orange-200 rounded-xl shadow-sm text-xs font-bold text-orange-700 bg-orange-50 hover:bg-orange-100 transition-colors">
+                    <svg class="h-4 w-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Export IPL
                 </button>
                 <button id="add-cash-btn" class="flex items-center px-5 py-2.5 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-gray-900 hover:bg-gray-800 transition-colors">
                     <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
@@ -139,7 +143,7 @@
                     <p class="text-sm font-bold text-gray-500">IPL Mega Auction</p>
                 </div>
                 <div class="text-right">
-                    <p id="count-ipl" class="text-3xl font-extrabold text-gray-900">0 <span class="text-sm text-gray-400 font-medium">/ 65</span></p>
+                    <p id="count-ipl" class="text-3xl font-extrabold text-gray-900">0 <span class="text-sm text-gray-400 font-medium">/ 50</span></p>
                 </div>
             </div>
         </div>
@@ -153,12 +157,13 @@
                             <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Participant</th>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Event Details</th>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Entry Code</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Preference</th>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-extrabold text-gray-400 uppercase tracking-widest">Entry Status</th>
                         </tr>
                     </thead>
                     <tbody id="entries-table-body" class="bg-white divide-y divide-gray-100">
                         <tr>
-                            <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500">
+                            <td colspan="6" class="px-6 py-12 text-center text-sm text-gray-500">
                                 <div class="flex justify-center items-center"><span class="spinner w-6 h-6 border-2 rounded-full border-red-600 border-t-transparent mr-3"></span> Loading Database...</div>
                             </td>
                         </tr>
@@ -187,6 +192,10 @@
                         <option value="finance-parliament-press">Finance Parliament (Press)</option>
                         <option value="ipl-auction">IPL Mega Auction</option>
                     </select>
+                </div>
+                <div id="cash-pref-container" class="block">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Preference (FP Only)</label>
+                    <input type="text" id="cash-pref-input" name="preference" placeholder="e.g. Minister of Finance / USA" class="block w-full rounded-xl border-gray-300 shadow-sm p-3.5 border focus:ring-red-500 focus:border-red-500 bg-gray-50 transition-colors">
                 </div>
                 <div class="pt-6 flex justify-end space-x-3 border-t border-gray-100 mt-6">
                     <button type="button" id="cancel-cash-btn" class="px-5 py-3 text-sm font-bold bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors">Cancel</button>
@@ -245,7 +254,8 @@
             const countFpPressEl = document.getElementById('count-fp-press');
             const countIplEl = document.getElementById('count-ipl');
             
-            const exportCsvBtn = document.getElementById('export-csv-btn');
+            const exportFpBtn = document.getElementById('export-fp-btn');
+            const exportIplBtn = document.getElementById('export-ipl-btn');
             
             // Toggle Settings Logic
             const toggleRegBtn = document.getElementById('toggle-reg-btn');
@@ -311,6 +321,7 @@
                                 eventName: m.eventName || reg.eventName || 'Fest Pass',
                                 entryCode: m.entryCode || reg.entryCode,
                                 paymentStatus: reg.paymentStatus,
+                                preference: m.preference || reg.preference || '',
                                 entryStatus: m.day1EntryStatus || reg.day1EntryStatus || 'UNUSED',
                                 registeredAt: reg.registeredAt
                             });
@@ -324,6 +335,7 @@
                             eventName: reg.eventName || 'Fest Pass',
                             entryCode: reg.entryCode,
                             paymentStatus: reg.paymentStatus,
+                            preference: reg.preference || '',
                             entryStatus: reg.day1EntryStatus || 'UNUSED',
                             registeredAt: reg.registeredAt
                         });
@@ -380,7 +392,7 @@
                 document.getElementById('select-all').checked = false;
                 
                 if (allParticipants.length === 0) {
-                    tableBody.innerHTML = `<tr><td colspan="5" class="px-6 py-12 text-center text-sm text-gray-500 font-bold">No entries found.</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-sm text-gray-500 font-bold">No entries found.</td></tr>`;
                     return;
                 }
 
@@ -420,6 +432,9 @@
                             onclick="openTicketByCode('${p.entryCode}')">
                             <span class="bg-red-50 px-2 py-1 rounded border border-red-100">${p.entryCode}</span>
                         </td>
+                        <td class="px-6 py-5 whitespace-nowrap">
+                            <div class="text-xs font-bold text-gray-600 truncate max-w-[120px]" title="${p.preference || '-'}">${p.preference || '-'}</div>
+                        </td>
                         <td class="px-6 py-5 whitespace-nowrap text-sm">${formatStatus(p.entryStatus)}</td>
                     `;
                     tableBody.appendChild(row);
@@ -428,11 +443,31 @@
                 updateSelectionState(); 
             }
 
-            exportCsvBtn.addEventListener('click', () => {
-                let csvContent = "Event Name,Entry Code,Payment Status,Participant Name,Email,Phone,Fest Entry Status\n";
-                const sortedParticipants = [...allParticipants].sort((a, b) => a.eventName.localeCompare(b.eventName));
+            exportFpBtn.addEventListener('click', () => {
+                let csvContent = "Event Name,Entry Code,Payment Status,Participant Name,Email,Phone,Preference,Fest Entry Status\n";
+                const fpParticipants = allParticipants.filter(p => p.eventName.includes('Parliament')).sort((a, b) => a.eventName.localeCompare(b.eventName));
 
-                sortedParticipants.forEach(p => {
+                fpParticipants.forEach(p => {
+                    const prefClean = (p.preference || '').replace(/"/g, '""'); // Handle quotes in CSV
+                    const rowStr = `"${p.eventName}","${p.entryCode}","${p.paymentStatus}","${p.name}","${p.email}","${p.phone}","${prefClean}","${p.entryStatus}"`;
+                    csvContent += rowStr + "\n";
+                });
+
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.setAttribute("href", url);
+                link.setAttribute("download", "Finance_Parliament_Registrations.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+
+            exportIplBtn.addEventListener('click', () => {
+                let csvContent = "Event Name,Entry Code,Payment Status,Participant Name,Email,Phone,Fest Entry Status\n";
+                const iplParticipants = allParticipants.filter(p => p.eventName.includes('IPL')).sort((a, b) => a.eventName.localeCompare(b.eventName));
+
+                iplParticipants.forEach(p => {
                     const rowStr = `"${p.eventName}","${p.entryCode}","${p.paymentStatus}","${p.name}","${p.email}","${p.phone}","${p.entryStatus}"`;
                     csvContent += rowStr + "\n";
                 });
@@ -441,7 +476,7 @@
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement("a");
                 link.setAttribute("href", url);
-                link.setAttribute("download", "SAMAKSH_2026_Attendance.csv");
+                link.setAttribute("download", "IPL_Auction_Registrations.csv");
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -554,10 +589,19 @@
             const cashModal = document.getElementById('cash-modal');
             const submitCashBtn = document.getElementById('submit-cash-btn');
             const cashEventSelect = document.getElementById('cash-event-select');
+            const cashPrefInput = document.getElementById('cash-pref-input');
             
             function updateCashBtnPrice() {
                 const price = PRICES[cashEventSelect.value] || 0;
                 submitCashBtn.querySelector('.btn-text').textContent = `Log Cash (₹${price})`;
+                
+                // Show/hide preference based on event
+                if (cashEventSelect.value.includes('parliament')) {
+                    document.getElementById('cash-pref-container').style.display = 'block';
+                } else {
+                    document.getElementById('cash-pref-container').style.display = 'none';
+                    if(cashPrefInput) cashPrefInput.value = '';
+                }
             }
             
             cashEventSelect.addEventListener('change', updateCashBtnPrice);
@@ -586,7 +630,8 @@
                 const eventSelect = e.target.querySelector('select[name="event"]');
                 const data = {
                     name: formData.get('name'), email: formData.get('email'), phone: formData.get('phone'),
-                    eventValue: formData.get('event'), eventName: eventSelect.options[eventSelect.selectedIndex].text
+                    eventValue: formData.get('event'), eventName: eventSelect.options[eventSelect.selectedIndex].text,
+                    preference: formData.get('preference') || ''
                 };
 
                 try {
@@ -611,7 +656,7 @@
             async function fetchRegistrations() {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="5" class="px-6 py-16 text-center text-sm text-gray-500 font-bold">
+                        <td colspan="6" class="px-6 py-16 text-center text-sm text-gray-500 font-bold">
                             <div class="flex justify-center items-center">
                                 <span class="spinner w-8 h-8 border-4 rounded-full border-red-600 border-t-transparent mr-4"></span> Loading Database...
                             </div>
@@ -638,7 +683,7 @@
                     console.error("Fetch Error:", error);
                     tableBody.innerHTML = `
                         <tr>
-                            <td colspan="5" class="px-6 py-10 text-center">
+                            <td colspan="6" class="px-6 py-10 text-center">
                                 <div class="text-red-600 font-extrabold text-lg mb-2">Error connecting to backend server</div>
                                 <div class="text-sm font-medium text-gray-500">Details: ${error.message}</div>
                                 <div class="text-xs font-bold text-gray-400 mt-3 bg-gray-50 inline-block px-4 py-2 rounded-lg border border-gray-200">Make sure "server.js" is running on localhost:3000 and MongoDB is connected.</div>

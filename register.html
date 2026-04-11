@@ -165,7 +165,7 @@
                             <div class="relative group">
                                 <select id="group-size" class="appearance-none block w-full rounded-2xl border-2 border-gray-200 font-bold text-lg p-5 bg-gray-50/50 text-gray-800 pr-10 cursor-pointer transition-all hover:bg-white hover:border-gray-300 outline-none">
                                     <option value="1">1 Participant (Finance Parliament)</option>
-                                    <option value="5">5 Participants (IPL Auction)</option>
+                                    <option value="5">5 Participants(IPL Auciton)</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-gray-400 group-hover:text-red-500 transition-colors">
                                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path d="M19 9l-7 7-7-7"></path></svg>
@@ -285,22 +285,60 @@
                 
                 <div class="block space-y-5 flex-grow">
                     <!-- Bank Details -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 text-left space-y-3 shadow-inner">
+                        <div class="flex justify-between items-center border-b border-gray-200 pb-3">
+                            <span class="text-gray-500 text-[10px] font-bold uppercase tracking-widest">Bank Name</span>
+                            <span class="font-extrabold text-gray-900 text-sm">Union Bank of India</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-200 pb-3">
+                            <span class="text-gray-500 text-[10px] font-bold uppercase tracking-widest">Account Name</span>
+                            <span class="font-extrabold text-gray-900 text-sm">Symbiosis University of Applied Sciences</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-gray-200 pb-3">
+                            <span class="text-gray-500 text-[10px] font-bold uppercase tracking-widest">Account Number</span>
+                            <span class="font-mono font-black text-lg text-red-600 tracking-wider">543702010017242 </span>
+                        </div>
+                        <div class="flex justify-between items-center pt-1">
+                            <span class="text-gray-500 text-[10px] font-bold uppercase tracking-widest">IFSC Code</span>
+                            <span class="font-mono font-bold text-gray-900">UBIN0554375</span>
+                        </div>
+                    </div>
+                    
+                    <!-- UPI Instructions -->
                     <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-left">
                         <h4 class="text-xs font-black text-blue-800 uppercase tracking-widest mb-2 flex items-center">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            For New Teams registering after inital registrations
+                            How to pay via UPI Apps?
                         </h4>
                         <ol class="list-decimal list-inside text-xs text-blue-800 space-y-1.5 font-medium ml-1">
-                            <li>There are only three slots avalaible</li>
-                            <li>Please <strong>"Enter a Random UTR"</strong>.</li>
-                            <li>Selection shall be done on the basis of first come first serve by the incharge faculty.</li>
-                            <li>Dont Pay any money <strong>Until official registration confirmation by the team</strong> for secrity purposes enter a fake 12 digit UTR for now.</li>
+                            <li>Open GPay, PhonePe, or Paytm.</li>
+                            <li>Select <strong>"Bank Transfer"</strong> or <strong>"To Bank Account"</strong>.</li>
+                            <li>Enter the exact Account No. & IFSC Code shown above.</li>
+                            <li>Pay the total amount and enter the <strong>12-digit UTR number</strong> below.</li>
                         </ol>
                     </div>
+                    
                     <!-- UTR Input -->
                     <div class="text-left">
                         <label class="block text-xs font-bold text-gray-600 mb-2 ml-1">Transaction Reference No. (UTR)</label>
                         <input type="text" id="ref-input" placeholder="e.g. 312345678901" required class="block w-full rounded-2xl border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 border p-4 text-center font-bold tracking-widest outline-none bg-gray-50 placeholder:tracking-normal placeholder:font-normal">
+                    </div>
+                    
+                    <!-- Formatted Professional Warning -->
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl text-left shadow-sm">
+                        <div class="flex">
+                            <div class="flex-shrink-0 mt-0.5">
+                                <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="text-[10px] font-black text-red-800 uppercase tracking-widest mb-1">Important Notice</h3>
+                                <div class="text-[11px] text-red-700 font-medium leading-relaxed">
+                                    Please be advised that submitting a fake or invalid UTR number will lead to the immediate cancellation of your registration and a ban from all future SAMAKSH events.
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Highlighted Coordinator Box -->
@@ -310,7 +348,7 @@
                         <p class="text-sm font-black text-gray-900 relative z-10">Connect with Coordinator: <span class="text-yellow-600">Riddhima Singh</span></p>
                         <a href="tel:+919876543210" class="inline-flex items-center justify-center mt-2 bg-gray-50 border border-gray-200 text-gray-800 px-4 py-2 rounded-lg font-bold text-xs hover:bg-gray-100 hover:shadow-sm transition-all relative z-10">
                             <svg class="w-3 h-3 mr-2 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                            +91 99810 69799
+                            +91 9981069799
                         </a>
                     </div>
                 </div>
@@ -471,10 +509,39 @@
                                     <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest px-1">Phone Number</label>
                                     <input type="tel" name="p_phone_${i}" required class="w-full bg-transparent border-none focus:ring-0 font-bold text-gray-900 outline-none">
                                 </div>
+                                
+                                <div id="pref_container_${i}" class="sm:col-span-2 custom-focus-ring bg-blue-50/50 rounded-xl p-4 border border-blue-200 transition-all ${isPrimary ? 'block' : 'hidden'}">
+                                    <label class="block text-[10px] font-bold text-blue-800 uppercase tracking-widest px-1 mb-1">Portfolio / Country Preference</label>
+                                    <input type="text" name="p_preference_${i}" placeholder="e.g. Minister of Finance / USA" class="w-full bg-white border border-blue-200 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 font-bold text-gray-900 outline-none text-sm placeholder:font-normal placeholder:text-gray-400 transition-all">
+                                    <p class="text-[10px] text-blue-700 mt-2 font-medium leading-tight">
+                                        <span class="font-black text-red-600">Disclaimer:</span> These preferences are not confirmed. The final call and allocation will be decided strictly by the organizing team.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     `);
                 }
+                
+                // Add toggle logic for the preference field
+                for (let i = 1; i <= count; i++) {
+                    const radios = document.querySelectorAll(`input[name="p_event_${i}"]`);
+                    const prefContainer = document.getElementById(`pref_container_${i}`);
+                    const prefInput = document.querySelector(`input[name="p_preference_${i}"]`);
+                    
+                    radios.forEach(radio => {
+                        radio.addEventListener('change', (e) => {
+                            if (e.target.value.includes('finance-parliament')) {
+                                prefContainer.classList.remove('hidden');
+                                prefContainer.classList.add('block');
+                            } else {
+                                prefContainer.classList.remove('block');
+                                prefContainer.classList.add('hidden');
+                                if(prefInput) prefInput.value = ''; // clear value
+                            }
+                        });
+                    });
+                }
+                
                 updateSummary();
             }
 
@@ -538,6 +605,7 @@
                         name: formData.get(`p_name_${i}`),
                         email: formData.get(`p_email_${i}`),
                         phone: formData.get(`p_phone_${i}`),
+                        preference: formData.get(`p_preference_${i}`) || '',
                         eventName: evtName,
                         eventValue: evtValue
                     });
