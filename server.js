@@ -17,8 +17,8 @@ app.use(cors());
 
 // --- EVENT PRICING & LIMITS CONFIGURATION ---
 const PRICES = {
-    'finance-parliament-delegate': 200, 
-    'finance-parliament-press': 200,
+    'finance-parliament-delegate': 100, 
+    'finance-parliament-press': 100,
     'ipl-auction': 80         
 };
 
